@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Tentang Kami</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background-color: #fff8f0; }
+        h1, h2 { color: #c46a00; }
+        p { color: #555; line-height: 1.7; }
+        nav a { margin: 0 15px; text-decoration: none; color: #c46a00; font-weight: bold; }
+        .card { background: white; border: 1px solid #f5c4b3; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 550px; text-align: left; }
+        .card h2 { margin-top: 0; font-size: 16px; }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; background-color: #f5c4b3; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; color: #993C1D; margin: 0 auto 12px; }
+        table { width: 100%; font-size: 14px; border-collapse: collapse; }
+        td { padding: 6px 4px; color: #555; vertical-align: top; }
+        td:first-child { font-weight: bold; color: #993C1D; width: 130px; }
+        .badge { display: inline-block; background: #fff8f0; border: 1px solid #f5c4b3; color: #993C1D; padding: 3px 10px; border-radius: 10px; font-size: 12px; margin: 3px 2px; }
+        .fact { background: #fff8f0; border-left: 3px solid #c46a00; border-radius: 0 6px 6px 0; padding: 10px 14px; margin-bottom: 10px; text-align: left; font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/contacts/">Contacts</a>
+    </nav>
+
+    <h1>Tentang Halaman Ini</h1>
+    <p>Kenalan dengan pembuat web dan kota yang menjadi tema project ini.</p>
+
+    <div class="card">
+        <h2>Profil Mahasiswa</h2>
+        <div class="avatar">[IN]</div>
+        <table>
+            <tr><td>Nama</td><td>ihsan abdillah</td></tr>
+            <tr><td>NPM</td><td>I24782044</td></tr>
+            <tr><td>Program Studi</td><td>Teknologi Rekayasa Internet</td></tr>
+            <tr><td>Mata Kuliah</td><td>Pemrograman Internet 1 (PIE 1416)</td></tr>
+            <tr><td>Semester</td><td>4</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Tentang Project Ini</h2>
+        <p style="font-size:14px; margin:0;">
+            Web ini dibuat sebagai bagian dari tugas Lab Session 2 mata kuliah Pemrograman Internet 1.
+            Project ini dibangun menggunakan <strong>Python</strong> dan framework <strong>Django</strong>,
+            dengan tiga halaman utama: Home, About, dan Contacts. Tujuannya adalah memahami
+            alur request-response Django, pengelolaan URL, views, dan template HTML.
+        </p>
+        <br>
+        <div>
+            <span class="badge">Python</span>
+            <span class="badge">Django</span>
+            <span class="badge">HTML</span>
+            <span class="badge">CSS</span>
+            <span class="badge">SQLite</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Tentang Kota Cilegon</h2>
+        <div class="fact">Cilegon adalah kota industri terbesar di Provinsi Banten, dikenal sebagai "Kota Baja" karena menjadi lokasi industri baja terbesar di Asia Tenggara.</div>
+        <div class="fact">Kota ini terletak di ujung barat Pulau Jawa, berbatasan langsung dengan Selat Sunda yang menghubungkan Jawa dan Sumatera.</div>
+        <div class="fact">Pelabuhan Merak yang ada di Cilegon merupakan salah satu pelabuhan tersibuk di Indonesia, melayani penyeberangan Jawa–Sumatera setiap harinya.</div>
+    </div>
+</body>
+</html>

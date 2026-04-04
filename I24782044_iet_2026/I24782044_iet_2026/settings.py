@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Tambahkan kode di bawah ini:
+    'main_app',
+    'about',
+    'contacts',
 ]
 
 MIDDLEWARE = [

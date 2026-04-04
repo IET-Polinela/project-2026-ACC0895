@@ -15,15 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.http import HttpResponse # Import HttpResponse untuk menampilkan teks
-
-# Membuat fungsi view sederhana
-def welcome_view(request):
-    return HttpResponse("Selamat Datang")
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Menambahkan path url /welcome yang mengarah ke welcome_view
-    path('welcome/', welcome_view), 
+    path('', include('main_app.urls')), # Rute utama (home)
+    path('about/', include('about.urls')), # Rute about
+    path('contacts/', include('contacts.urls')), # Rute contacts
 ]

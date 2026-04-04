@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Beranda</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background-color: #f0f8ff; }
+        h1 { color: #2c6fad; }
+        p { color: #555; }
+        nav a { margin: 0 15px; text-decoration: none; color: #2c6fad; font-weight: bold; }
+        .card { background: white; border: 1px solid #d0e4f7; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 500px; text-align: left; }
+        .card h3 { color: #2c6fad; margin-top: 0; }
+        input, textarea, select { width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 10px; border: 1px solid #c0d8f0; border-radius: 6px; font-size: 14px; }
+        textarea { height: 80px; resize: vertical; }
+        .btn { padding: 8px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; width: 100%; font-weight: bold; }
+        .btn-biru { background: #2c6fad; color: white; }
+        .btn-hijau { background: #1a7a40; color: white; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: #e6f1fb; color: #2c6fad; padding: 8px; text-align: left; }
+        td { padding: 8px; border-bottom: 1px solid #f0f0f0; }
+        .badge { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+        .badge-keluhan { background: #e6f1fb; color: #185FA5; }
+        .badge-saran { background: #e6fbee; color: #27500A; }
+        .badge-kendala { background: #fff8e6; color: #633806; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/contacts/">Contacts</a>
+    </nav>
+    <h1>Selamat Datang di Kota Cilegon</h1>
+    <p>Website ini dibuat untuk memenuhi tugas praktikum IET 2026.</p>
+
+    <div class="card">
+        <h3>Login dengan Email</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="contoh@email.com" required>
+            <button type="submit" class="btn btn-biru">Masuk</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Saran, Keluhan & Kendala</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="email" name="email_pesan" placeholder="Email kamu (opsional)">
+            <select name="kategori" required>
+                <option value="">-- Pilih Kategori --</option>
+                <option value="Saran">Saran</option>
+                <option value="Keluhan">Keluhan</option>
+                <option value="Kendala">Kendala</option>
+            </select>
+            <textarea name="isi" placeholder="Tulis pesan kamu di sini..." required></textarea>
+            <button type="submit" class="btn btn-hijau">Kirim Pesan</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h3>Daftar Email Masuk ({{ email_list.count }})</h3>
+        <table>
+            <tr><th>Email</th><th>Waktu</th></tr>
+            {% for item in email_list %}
+            <tr>
+                <td>{{ item.email }}</td>
+                <td>{{ item.waktu|date:"d/m/Y H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="2" style="color:#aaa; text-align:center;">Belum ada email masuk</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>Daftar Pesan Masuk ({{ pesan_list.count }})</h3>
+        <table>
+            <tr><th>Email</th><th>Kategori</th><th>Pesan</th><th>Waktu</th></tr>
+            {% for p in pesan_list %}
+            <tr>
+                <td>{{ p.email|default:"-" }}</td>
+                <td>
+                    <span class="badge badge-{{ p.kategori|lower }}">{{ p.kategori }}</span>
+                </td>
+                <td>{{ p.isi|truncatechars:40 }}</td>
+                <td>{{ p.waktu|date:"d/m/Y H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" style="color:#aaa; text-align:center;">Belum ada pesan masuk</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

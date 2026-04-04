@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kontak</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background-color: #f0fff4; }
+        h1, h2 { color: #1a7a40; }
+        p { color: #555; line-height: 1.7; }
+        nav a { margin: 0 15px; text-decoration: none; color: #1a7a40; font-weight: bold; }
+        .card { background: white; border: 1px solid #9FE1CB; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 550px; text-align: left; }
+        .card h2 { margin-top: 0; font-size: 16px; color: #1a7a40; }
+        table { width: 100%; font-size: 14px; border-collapse: collapse; }
+        td { padding: 8px 4px; color: #555; vertical-align: middle; border-bottom: 1px solid #f0f0f0; }
+        td:first-child { font-weight: bold; color: #0F6E56; width: 40px; font-size: 18px; }
+        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 10px; border: 1px solid #9FE1CB; border-radius: 6px; font-size: 14px; }
+        textarea { height: 80px; resize: vertical; }
+        .btn { padding: 9px 20px; background: #1a7a40; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; width: 100%; font-weight: bold; }
+        .btn:hover { background: #0F6E56; }
+        .success { background: #e6fbee; border: 1px solid #9FE1CB; color: #0F6E56; padding: 10px; border-radius: 6px; font-size: 14px; margin-bottom: 10px; display: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/contacts/">Contacts</a>
+    </nav>
+
+    <h1>Hubungi Kami</h1>
+    <p>Ada pertanyaan atau ingin berkolaborasi? Jangan ragu untuk menghubungi kami.</p>
+
+    <div class="card">
+        <h2>Informasi Kontak</h2>
+        <table>
+            <tr>
+                <td>✉</td>
+                <td>alayyubis88@gmail.com</td>
+            </tr>
+            <tr>
+                <td>📱</td>
+                <td>+62895603228849</td>
+            </tr>
+            <tr>
+                <td>🏫</td>
+                <td>politeknik negeri lampung, lampung</td>
+            </tr>
+            <tr>
+                <td>💻</td>
+                <td>https://github.com/alayyubis</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Kirim Pesan Langsung</h2>
+        <div class="success" id="successMsg">Pesan berhasil dikirim! Terima kasih.</div>
+        <input type="text" id="nama" placeholder="Nama kamu" required>
+        <input type="email" id="emailInput" placeholder="Email kamu" required>
+        <textarea id="pesan" placeholder="Tulis pesan kamu di sini..."></textarea>
+        <button class="btn" onclick="kirimPesan()">Kirim Pesan</button>
+    </div>
+
+    <div class="card">
+        <h2>Jam Aktif</h2>
+        <table>
+            <tr><td>📅</td><td>Senin – Jumat: 08.00 – 17.00 WIB</td></tr>
+            <tr><td>📅</td><td>Sabtu: 09.00 – 13.00 WIB</td></tr>
+            <tr><td>❌</td><td>Minggu & Hari Libur: Tidak aktif</td></tr>
+        </table>
+    </div>
+
+    <script>
+        function kirimPesan() {
+            const nama = document.getElementById('nama').value;
+            const email = document.getElementById('emailInput').value;
+            const pesan = document.getElementById('pesan').value;
+            if (nama && email && pesan) {
+                document.getElementById('successMsg').style.display = 'block';
+                document.getElementById('nama').value = '';
+                document.getElementById('emailInput').value = '';
+                document.getElementById('pesan').value = '';
+            } else {
+                alert('Mohon isi semua kolom terlebih dahulu.');
+            }
+        }
+    </script>
+</body>
+</html>
