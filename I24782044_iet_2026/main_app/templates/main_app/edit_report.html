@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Laporan</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background-color: #f0f8ff; }
+        h1 { color: #c46a00; text-align: center; }
+        nav { text-align: center; margin-bottom: 20px; }
+        nav a { margin: 0 15px; text-decoration: none; color: #2c6fad; font-weight: bold; }
+        .card { background: white; border: 1px solid #f5c4b3; border-radius: 8px; padding: 24px; max-width: 500px; margin: 0 auto; }
+        label { display: block; font-size: 13px; font-weight: bold; color: #c46a00; margin-bottom: 4px; }
+        input, textarea, select { width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 14px; border: 1px solid #f5c4b3; border-radius: 6px; font-size: 14px; }
+        textarea { height: 100px; resize: vertical; }
+        .btn { width: 100%; padding: 10px; background: #c46a00; color: white; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
+        .back { display: block; text-align: center; margin-top: 12px; color: #2c6fad; text-decoration: none; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/contacts/">Contacts</a>
+    </nav>
+    <h1>Edit Laporan</h1>
+    <div class="card">
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <p style="color:red; font-size:12px;">{{ field.errors }}</p>
+                {% endif %}
+            {% endfor %}
+            <button type="submit" class="btn">Simpan Perubahan</button>
+        </form>
+        <a href="/" class="back">Batal, kembali ke daftar</a>
+    </div>
+</body>
+</html>

@@ -1,27 +1,35 @@
-from django.shortcuts import render, redirect
-from .models import EmailLogin, Pesan
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Report
+from .forms import ReportForm
 
 def home(request):
-    # Handle form login email
-    if request.method == 'POST' and 'email' in request.POST:
-        email = request.POST.get('email')
-        if email:
-            EmailLogin.objects.create(email=email)
+    reports = Report.objects.all().order_by('-created_at')
+    return render(request, 'main_app/home.html', {'reports': reports})
+
+def add_report(request):
+    if request.method == 'POST':
+        form = ReportForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ReportForm()
+    return render(request, 'main_app/add_report.html', {'form': form})
+
+def edit_report(request, pk):
+    report = get_object_or_404(Report, pk=pk)
+    if request.method == 'POST':
+        form = ReportForm(request.POST, instance=report)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ReportForm(instance=report)
+    return render(request, 'main_app/edit_report.html', {'form': form, 'report': report})
+
+def delete_report(request, pk):
+    report = get_object_or_404(Report, pk=pk)
+    if request.method == 'POST':
+        report.delete()
         return redirect('home')
-
-    # Handle form saran/keluhan
-    if request.method == 'POST' and 'isi' in request.POST:
-        email = request.POST.get('email_pesan', '')
-        kategori = request.POST.get('kategori')
-        isi = request.POST.get('isi')
-        if kategori and isi:
-            Pesan.objects.create(email=email, kategori=kategori, isi=isi)
-        return redirect('home')
-
-    email_list = EmailLogin.objects.all().order_by('-waktu')
-    pesan_list = Pesan.objects.all().order_by('-waktu')
-
-    return render(request, 'main_app/home.html', {
-        'email_list': email_list,
-        'pesan_list': pesan_list,
-    })
+    return render(request, 'main_app/delete_report.html', {'report': report})

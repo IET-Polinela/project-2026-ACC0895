@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Hapus Laporan</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 30px; background-color: #f0f8ff; }
+        h1 { color: #e24b4a; text-align: center; }
+        nav { text-align: center; margin-bottom: 20px; }
+        nav a { margin: 0 15px; text-decoration: none; color: #2c6fad; font-weight: bold; }
+        .card { background: white; border: 1px solid #f7c1c1; border-radius: 8px; padding: 24px; max-width: 500px; margin: 0 auto; text-align: center; }
+        .info { background: #fcebeb; border-radius: 6px; padding: 14px; margin-bottom: 20px; text-align: left; font-size: 14px; color: #444; }
+        .info span { font-weight: bold; color: #a32d2d; }
+        .btn-hapus { padding: 10px 24px; background: #e24b4a; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .back { display: inline-block; margin-left: 12px; padding: 10px 20px; background: #eee; color: #444; border-radius: 6px; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/contacts/">Contacts</a>
+    </nav>
+    <h1>Hapus Laporan</h1>
+    <div class="card">
+        <p style="color:#555;">Apakah kamu yakin ingin menghapus laporan ini?</p>
+        <div class="info">
+            <span>Judul:</span> {{ report.title }}<br>
+            <span>Kategori:</span> {{ report.category }}<br>
+            <span>Lokasi:</span> {{ report.location }}
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn-hapus">Ya, Hapus</button>
+            <a href="/" class="back">Batal</a>
+        </form>
+    </div>
+</body>
+</html>
