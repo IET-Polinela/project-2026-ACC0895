@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Laporan - Kota Cilegon</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; }
+        .header { background-color: #1a3a5c; padding: 16px 32px; display: flex; align-items: center; gap: 16px; }
+        .header-logo { width: 52px; height: 52px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1a3a5c; font-size: 11px; text-align: center; }
+        .header-text h1 { color: white; font-size: 18px; }
+        .header-text p { color: #a8c4e0; font-size: 12px; margin-top: 2px; }
+        .navbar { background-color: #22527a; display: flex; padding: 0 32px; }
+        .navbar a { color: #cce0f5; text-decoration: none; padding: 12px 20px; font-size: 14px; }
+        .navbar a:hover { background-color: #1a3a5c; color: white; }
+        .container { max-width: 600px; margin: 32px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 28px 32px; margin-bottom: 20px;}
+        .card h2 { color: #1a3a5c; font-size: 16px; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e8f0fe; }
+        .detail-item { margin-bottom: 15px; }
+        .detail-item strong { display: block; font-size: 13px; color: #444; margin-bottom: 4px; }
+        .detail-item p { font-size: 14px; color: #333; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; background: #e8f0fe; color: #1a3a5c; }
+        
+        /* Style tambahan untuk form update status */
+        .workflow-box { background-color: #eef2f7; padding: 20px; border-radius: 8px; margin-top: 20px; border: 1px solid #ccd; }
+        label { display: block; font-size: 13px; font-weight: bold; color: #444; margin-bottom: 5px; }
+        select { width: 100%; padding: 9px 12px; border: 1px solid #ccd; border-radius: 6px; font-size: 14px; color: #333; margin-bottom: 15px;}
+        .btn-update { width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .btn-update:hover { background: #218838; }
+        .btn-kembali { display: block; padding: 10px; background: #eee; color: #555; border: none; border-radius: 6px; font-size: 14px; cursor: pointer; text-decoration: none; text-align: center; margin-top: 10px;}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">KOTA<br>CILEGON</div>
+        <div class="header-text">
+            <h1>Platform Pelaporan Masalah & Keluhan</h1>
+            <p>Pemkot Cilegon — Melayani Masyarakat dengan Transparan</p>
+        </div>
+    </div>
+    <div class="navbar">
+        <a href="{% url 'report_list' %}">Daftar Laporan</a>
+    </div>
+    <div class="container">
+        
+        <div class="card">
+            <h2>Detail Laporan: {{ report.title }}</h2>
+            
+            <div class="detail-item">
+                <strong>Kategori:</strong>
+                <p>{{ report.category }}</p>
+            </div>
+            <div class="detail-item">
+                <strong>Lokasi:</strong>
+                <p>{{ report.location }}</p>
+            </div>
+            <div class="detail-item">
+                <strong>Deskripsi:</strong>
+                <p>{{ report.description }}</p>
+            </div>
+            <div class="detail-item">
+                <strong>Status Saat Ini:</strong>
+                <p><span class="status-badge">{{ report.get_status_display }}</span></p>
+            </div>
+            
+            <div class="workflow-box">
+                <form action="{% url 'report_update_status' report.pk %}" method="POST">
+                    {% csrf_token %}
+                    <label for="status">Update Status Laporan (Workflow):</label>
+                    <select name="status" id="status">
+                        <option value="REPORTED" {% if report.status == 'REPORTED' %}selected{% endif %}>Reported</option>
+                        <option value="VERIFIED" {% if report.status == 'VERIFIED' %}selected{% endif %}>Verified</option>
+                        <option value="IN_PROGRESS" {% if report.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+                        <option value="RESOLVED" {% if report.status == 'RESOLVED' %}selected{% endif %}>Resolved</option>
+                    </select>
+                    <button type="submit" class="btn-update">Perbarui Status</button>
+                </form>
+            </div>
+            
+            <a href="{% url 'report_list' %}" class="btn-kembali">Kembali ke Daftar</a>
+        </div>
+        
+    </div>
+</body>
+</html>

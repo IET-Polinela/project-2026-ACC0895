@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Hapus Laporan - Kota Cilegon</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; }
+        .header { background-color: #1a3a5c; padding: 16px 32px; display: flex; align-items: center; gap: 16px; }
+        .header-logo { width: 52px; height: 52px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #1a3a5c; font-size: 11px; text-align: center; }
+        .header-text h1 { color: white; font-size: 18px; }
+        .header-text p { color: #a8c4e0; font-size: 12px; margin-top: 2px; }
+        .navbar { background-color: #22527a; display: flex; padding: 0 32px; }
+        .navbar a { color: #cce0f5; text-decoration: none; padding: 12px 20px; font-size: 14px; }
+        .navbar a:hover { background-color: #1a3a5c; color: white; }
+        .container { max-width: 500px; margin: 60px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); padding: 32px; text-align: center; }
+        .icon-hapus { font-size: 40px; margin-bottom: 12px; }
+        .card h2 { color: #dc3545; font-size: 18px; margin-bottom: 10px; }
+        .card p { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .info-box { background: #fff5f5; border: 1px solid #f5c6cb; border-radius: 8px; padding: 14px; text-align: left; margin-bottom: 24px; font-size: 13px; color: #444; line-height: 1.8; }
+        .info-box span { font-weight: bold; color: #dc3545; }
+        .btn-row { display: flex; gap: 10px; }
+        .btn-hapus { flex: 1; padding: 10px; background: #dc3545; color: white; border: none; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .btn-hapus:hover { background: #b02a37; }
+        .btn-batal { flex: 1; padding: 10px; background: #eee; color: #555; border-radius: 6px; font-size: 14px; text-decoration: none; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">KOTA<br>CILEGON</div>
+        <div class="header-text">
+            <h1>Platform Pelaporan Masalah & Keluhan</h1>
+            <p>Pemkot Cilegon — Melayani Masyarakat dengan Transparan</p>
+        </div>
+    </div>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/about/">About</a>
+        <a href="/contacts/">Contacts</a>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="icon-hapus">🗑️</div>
+            <h2>Konfirmasi Hapus Laporan</h2>
+            <p>Tindakan ini tidak dapat dibatalkan. Laporan berikut akan dihapus permanen:</p>
+            <div class="info-box">
+                <span>Judul:</span> {{ report.title }}<br>
+                <span>Kategori:</span> {{ report.category }}<br>
+                <span>Lokasi:</span> {{ report.location }}<br>
+                <span>Status:</span> {{ report.get_status_display }}
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="btn-row">
+                    <button type="submit" class="btn-hapus">Ya, Hapus Sekarang</button>
+                    <a href="/" class="btn-batal">Batal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
