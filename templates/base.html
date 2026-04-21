@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Cilegon Smart City{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cilegon-red:    #C0392B;
+      --cilegon-dark:   #922B21;
+      --cilegon-steel:  #2C3E50;
+      --cilegon-light:  #FADBD8;
+      --cilegon-bg:     #F4F6F9;
+    }
+
+    * { font-family: 'Inter', sans-serif; }
+
+    body {
+      background-color: var(--cilegon-bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Navbar ── */
+    .navbar-cilegon {
+      background: linear-gradient(135deg, var(--cilegon-dark) 0%, var(--cilegon-red) 60%, #E74C3C 100%);
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+      padding: 0.6rem 0;
+    }
+    .navbar-cilegon .navbar-brand {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+      color: #fff !important;
+    }
+    .navbar-cilegon .navbar-brand .brand-icon {
+      background: rgba(255,255,255,.15);
+      border-radius: 8px;
+      padding: 4px 8px;
+      margin-right: 8px;
+    }
+    .navbar-cilegon .nav-link {
+      color: rgba(255,255,255,.85) !important;
+      font-weight: 500;
+      padding: .5rem .9rem !important;
+      border-radius: 6px;
+      transition: background .2s;
+    }
+    .navbar-cilegon .nav-link:hover,
+    .navbar-cilegon .nav-link.active {
+      background: rgba(255,255,255,.18);
+      color: #fff !important;
+    }
+
+    /* ── Hero banner ── */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--cilegon-dark) 0%, var(--cilegon-red) 100%);
+      color: #fff;
+      padding: 2rem 0 1.6rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 4px solid rgba(255,255,255,.15);
+    }
+    .hero-banner .hero-badge {
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 600;
+      padding: 3px 14px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+    .hero-banner h1 { font-size: 1.6rem; font-weight: 700; margin: .5rem 0 .25rem; }
+    .hero-banner p  { font-size: .9rem; opacity: .85; margin: 0; }
+
+    /* ── Cards ── */
+    .card { border: none; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.07); }
+    .card-header-cilegon {
+      background: linear-gradient(90deg, var(--cilegon-dark), var(--cilegon-red));
+      color: #fff;
+      border-radius: 12px 12px 0 0 !important;
+      padding: .8rem 1.2rem;
+    }
+    .card-header-primary {
+      background: linear-gradient(90deg, var(--cilegon-dark), var(--cilegon-red));
+      color: #fff;
+      border-radius: 12px 12px 0 0 !important;
+    }
+
+    /* ── Table ── */
+    .table thead th {
+      background: linear-gradient(90deg, var(--cilegon-dark), var(--cilegon-red));
+      color: #fff;
+      font-weight: 600;
+      border: none;
+    }
+    .table-hover tbody tr:hover { background-color: #fdf0ef; }
+
+    /* ── Status badges ── */
+    .badge-reported    { background-color: #f5c842 !important; color: #333 !important; }
+    .badge-verified    { background-color: #0d6efd !important; color: #fff !important; }
+    .badge-in_progress { background-color: #6f42c1 !important; color: #fff !important; }
+    .badge-resolved    { background-color: #198754 !important; color: #fff !important; }
+
+    /* ── Buttons ── */
+    .btn-cilegon {
+      background: linear-gradient(135deg, var(--cilegon-dark), var(--cilegon-red));
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn-cilegon:hover { opacity: .88; color: #fff; transform: translateY(-1px); }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb-item a { color: var(--cilegon-red); text-decoration: none; font-weight: 500; }
+    .breadcrumb-item a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: auto;
+      background: var(--cilegon-steel);
+      color: rgba(255,255,255,.7);
+      font-size: .82rem;
+      padding: 1.2rem 0;
+    }
+    footer a { color: rgba(255,255,255,.85); }
+    footer .footer-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ── -->
+<nav class="navbar navbar-expand-lg navbar-cilegon">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <span class="brand-icon"><i class="bi bi-buildings-fill"></i></span>
+      Cilegon Smart City
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-fill me-1"></i>Beranda</a></li>
+        <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-file-text-fill me-1"></i>Laporan</a></li>
+        <li class="nav-item"><a class="nav-link" href="/about/"><i class="bi bi-info-circle-fill me-1"></i>Tentang</a></li>
+        <li class="nav-item"><a class="nav-link" href="/contacts/"><i class="bi bi-envelope-fill me-1"></i>Kontak</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Flash messages ── -->
+<div class="container mt-3">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show d-flex align-items-center rounded-3 shadow-sm" role="alert">
+        <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+        <div>{{ message }}</div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<!-- ── Main content ── -->
+<div class="container mt-3 mb-5">
+  {% block content %}{% endblock %}
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div>
+        <div class="footer-logo"><i class="bi bi-buildings-fill me-1"></i>Cilegon Smart City</div>
+        <small>Sistem Pelaporan Infrastruktur Kota Cilegon</small>
+      </div>
+      <div class="text-end">
+        <small>&copy; 2026 Kota Cilegon — Teknologi Rekayasa Internet</small><br>
+        <small>Politeknik Negeri Lampung</small>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Highlight active nav link
+    const path = window.location.pathname;
+    document.querySelectorAll('.nav-link').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === path || (href !== '/' && path.startsWith(href))) {
+        link.classList.add('active');
+      }
+    });
+    // Loading button
+    document.querySelectorAll('form.needs-loading').forEach(function(form) {
+      form.addEventListener('submit', function () {
+        const btn = form.querySelector('button[type="submit"]');
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Loading...';
+        }
+      });
+    });
+  });
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

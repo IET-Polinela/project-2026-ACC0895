@@ -19,7 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main_app.urls')), # Rute utama (home)
-    path('about/', include('about.urls')), # Rute about
-    path('contacts/', include('contacts.urls')), # Rute contacts
+    path('', include('main_app.urls')),
+    path('about/', include('about.urls')),
+    path('contacts/', include('contacts.urls')),
 ]

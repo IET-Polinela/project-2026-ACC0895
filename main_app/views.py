@@ -1,45 +1,75 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Report
+from .forms import ReportForm
 
-# Gunakan home.html untuk daftar laporan
-class ReportListView(ListView):
+
+class HomeView(ListView):
     model = Report
     template_name = 'main_app/home.html'
     context_object_name = 'reports'
 
-# Gunakan report_detail.html untuk detail laporan
-class ReportDetailView(DetailView):
-    model = Report
-    template_name = 'main_app/report_detail.html'
 
-# Gunakan add_report.html untuk tambah data
-class ReportCreateView(CreateView):
+class AddReportView(CreateView):
     model = Report
+    form_class = ReportForm
     template_name = 'main_app/add_report.html'
-    fields = ['title', 'category', 'description', 'location']
-    success_url = reverse_lazy('report_list')
+    success_url = reverse_lazy('home')
 
-# Gunakan edit_report.html untuk edit data
-class ReportUpdateView(UpdateView):
+    def form_valid(self, form):
+        messages.success(self.request, 'Laporan berhasil ditambahkan!')
+        return super().form_valid(form)
+
+
+class EditReportView(UpdateView):
     model = Report
+    form_class = ReportForm
     template_name = 'main_app/edit_report.html'
-    fields = ['title', 'category', 'description', 'location']
-    success_url = reverse_lazy('report_list')
+    success_url = reverse_lazy('home')
 
-# Gunakan delete_report.html untuk konfirmasi hapus
-class ReportDeleteView(DeleteView):
+    def form_valid(self, form):
+        messages.success(self.request, 'Laporan berhasil diperbarui!')
+        return super().form_valid(form)
+
+
+class DeleteReportView(DeleteView):
     model = Report
-    template_name = 'main_app/delete_report.html' # <-- UPDATE DI SINI
-    success_url = reverse_lazy('report_list')
+    template_name = 'main_app/delete_report.html'
+    success_url = reverse_lazy('home')
 
-# View untuk Workflow (tetap sama)
-class ReportUpdateStatusView(View):
-    def post(self, request, pk):
+    def form_valid(self, form):
+        messages.success(self.request, 'Laporan berhasil dihapus!')
+        return super().form_valid(form)
+
+
+class VerifyReportView(View):
+    def get(self, request, pk):
         report = get_object_or_404(Report, pk=pk)
-        new_status = request.POST.get('status')
-        report.status = new_status
-        report.save()
-        return redirect('report_list')
+        if report.status == 'REPORTED':
+            report.status = 'VERIFIED'
+            report.save()
+            messages.success(request, f'Status laporan "{report.title}" diubah ke Diverifikasi.')
+        return redirect('home')
+
+
+class ProgressReportView(View):
+    def get(self, request, pk):
+        report = get_object_or_404(Report, pk=pk)
+        if report.status == 'VERIFIED':
+            report.status = 'IN_PROGRESS'
+            report.save()
+            messages.success(request, f'Status laporan "{report.title}" diubah ke Diproses.')
+        return redirect('home')
+
+
+class ResolveReportView(View):
+    def get(self, request, pk):
+        report = get_object_or_404(Report, pk=pk)
+        if report.status == 'IN_PROGRESS':
+            report.status = 'RESOLVED'
+            report.save()
+            messages.success(request, f'Status laporan "{report.title}" diubah ke Selesai.')
+        return redirect('home')

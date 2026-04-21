@@ -1,89 +1,103 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Kontak</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background-color: #f0fff4; }
-        h1, h2 { color: #1a7a40; }
-        p { color: #555; line-height: 1.7; }
-        nav a { margin: 0 15px; text-decoration: none; color: #1a7a40; font-weight: bold; }
-        .card { background: white; border: 1px solid #9FE1CB; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 550px; text-align: left; }
-        .card h2 { margin-top: 0; font-size: 16px; color: #1a7a40; }
-        table { width: 100%; font-size: 14px; border-collapse: collapse; }
-        td { padding: 8px 4px; color: #555; vertical-align: middle; border-bottom: 1px solid #f0f0f0; }
-        td:first-child { font-weight: bold; color: #0F6E56; width: 40px; font-size: 18px; }
-        input, textarea { width: 100%; box-sizing: border-box; padding: 8px; margin-bottom: 10px; border: 1px solid #9FE1CB; border-radius: 6px; font-size: 14px; }
-        textarea { height: 80px; resize: vertical; }
-        .btn { padding: 9px 20px; background: #1a7a40; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; width: 100%; font-weight: bold; }
-        .btn:hover { background: #0F6E56; }
-        .success { background: #e6fbee; border: 1px solid #9FE1CB; color: #0F6E56; padding: 10px; border-radius: 6px; font-size: 14px; margin-bottom: 10px; display: none; }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/contacts/">Contacts</a>
-    </nav>
+{% extends 'base.html' %}
+{% block title %}Kontak — Cilegon Smart City{% endblock %}
 
-    <h1>Hubungi Kami</h1>
-    <p>Ada pertanyaan atau ingin berkolaborasi? Jangan ragu untuk menghubungi kami.</p>
+{% block content %}
 
-    <div class="card">
-        <h2>Informasi Kontak</h2>
-        <table>
-            <tr>
-                <td>✉</td>
-                <td>alayyubis88@gmail.com</td>
-            </tr>
-            <tr>
-                <td>📱</td>
-                <td>+62895603228849</td>
-            </tr>
-            <tr>
-                <td>🏫</td>
-                <td>politeknik negeri lampung, lampung</td>
-            </tr>
-            <tr>
-                <td>💻</td>
-                <td>https://github.com/alayyubis</td>
-            </tr>
-        </table>
+<!-- Hero Banner -->
+<div class="hero-banner rounded-3 px-4 mb-4">
+  <span class="hero-badge"><i class="bi bi-envelope me-1"></i>Hubungi Kami</span>
+  <h1><i class="bi bi-headset me-2"></i>Pusat Kontak</h1>
+  <p>Ada pertanyaan atau masukan? Kami siap membantu warga Kota Cilegon.</p>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i> Beranda</a></li>
+    <li class="breadcrumb-item active">Kontak</li>
+  </ol>
+</nav>
+
+<div class="row justify-content-center">
+  <div class="col-lg-6 col-md-8">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header card-header-cilegon">
+        <h5 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i>Informasi Kontak</h5>
+      </div>
+      <div class="card-body p-4">
+        <ul class="list-unstyled mb-0">
+          <li class="d-flex align-items-center gap-3 mb-3 p-3 rounded-3" style="background:#fdf0ef">
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width:38px;height:38px;background:#C0392B;flex-shrink:0;">
+              <i class="bi bi-envelope-fill"></i>
+            </div>
+            <span>alayyubis88@gmail.com</span>
+          </li>
+          <li class="d-flex align-items-center gap-3 mb-3 p-3 rounded-3" style="background:#fdf0ef">
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width:38px;height:38px;background:#C0392B;flex-shrink:0;">
+              <i class="bi bi-telephone-fill"></i>
+            </div>
+            <span>+62 895-6032-28849</span>
+          </li>
+          <li class="d-flex align-items-center gap-3 mb-3 p-3 rounded-3" style="background:#fdf0ef">
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width:38px;height:38px;background:#C0392B;flex-shrink:0;">
+              <i class="bi bi-building"></i>
+            </div>
+            <span>Politeknik Negeri Lampung</span>
+          </li>
+          <li class="d-flex align-items-center gap-3 p-3 rounded-3" style="background:#fdf0ef">
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width:38px;height:38px;background:#C0392B;flex-shrink:0;">
+              <i class="bi bi-github"></i>
+            </div>
+            <a href="https://github.com/alayyubis" target="_blank" class="fw-semibold text-decoration-none" style="color:#C0392B">
+              github.com/alayyubis
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <div class="card">
-        <h2>Kirim Pesan Langsung</h2>
-        <div class="success" id="successMsg">Pesan berhasil dikirim! Terima kasih.</div>
-        <input type="text" id="nama" placeholder="Nama kamu" required>
-        <input type="email" id="emailInput" placeholder="Email kamu" required>
-        <textarea id="pesan" placeholder="Tulis pesan kamu di sini..."></textarea>
-        <button class="btn" onclick="kirimPesan()">Kirim Pesan</button>
+    <div class="card shadow-sm">
+      <div class="card-header card-header-cilegon">
+        <h5 class="mb-0"><i class="bi bi-send me-2"></i>Kirim Pesan</h5>
+      </div>
+      <div class="card-body p-4">
+        <form id="contactForm">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Nama <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" placeholder="Nama lengkap Anda" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
+            <input type="email" class="form-control" placeholder="email@example.com" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Pesan <span class="text-danger">*</span></label>
+            <textarea class="form-control" rows="4" placeholder="Tulis pesan Anda di sini..." required></textarea>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-cilegon px-4">
+              <i class="bi bi-send me-1"></i> Kirim Pesan
+            </button>
+            <a href="/" class="btn btn-outline-secondary px-4">
+              <i class="bi bi-arrow-left me-1"></i> Kembali
+            </a>
+          </div>
+        </form>
+        <div class="alert alert-success mt-3 d-none rounded-3" id="successMsg">
+          <i class="bi bi-check-circle-fill me-2"></i> Pesan berhasil dikirim! Kami akan segera merespons.
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+{% endblock %}
 
-    <div class="card">
-        <h2>Jam Aktif</h2>
-        <table>
-            <tr><td>📅</td><td>Senin – Jumat: 08.00 – 17.00 WIB</td></tr>
-            <tr><td>📅</td><td>Sabtu: 09.00 – 13.00 WIB</td></tr>
-            <tr><td>❌</td><td>Minggu & Hari Libur: Tidak aktif</td></tr>
-        </table>
-    </div>
-
-    <script>
-        function kirimPesan() {
-            const nama = document.getElementById('nama').value;
-            const email = document.getElementById('emailInput').value;
-            const pesan = document.getElementById('pesan').value;
-            if (nama && email && pesan) {
-                document.getElementById('successMsg').style.display = 'block';
-                document.getElementById('nama').value = '';
-                document.getElementById('emailInput').value = '';
-                document.getElementById('pesan').value = '';
-            } else {
-                alert('Mohon isi semua kolom terlebih dahulu.');
-            }
-        }
-    </script>
-</body>
-</html>
+{% block extra_js %}
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('successMsg').classList.remove('d-none');
+    this.reset();
+    this.querySelector('button[type=submit]').disabled = true;
+  });
+</script>
+{% endblock %}

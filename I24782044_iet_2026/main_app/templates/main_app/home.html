@@ -1,69 +1,194 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Smart City Cilegon</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 30px; background-color: #f0f8ff; }
-        h1 { color: #2c6fad; text-align: center; }
-        p { color: #555; text-align: center; }
-        nav { text-align: center; margin-bottom: 20px; }
-        nav a { margin: 0 15px; text-decoration: none; color: #2c6fad; font-weight: bold; }
-        .btn-tambah { display: block; width: fit-content; margin: 0 auto 20px; padding: 10px 24px; background: #2c6fad; color: white; border-radius: 6px; text-decoration: none; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-        th { background: #2c6fad; color: white; padding: 10px; text-align: left; }
-        td { padding: 10px; border-bottom: 1px solid #f0f0f0; color: #444; }
-        .badge { padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: bold; }
-        .badge-reported { background: #fff8e6; color: #633806; }
-        .badge-in_progress { background: #e6f1fb; color: #185FA5; }
-        .badge-resolved { background: #e6fbee; color: #27500A; }
-        .btn-edit { padding: 4px 12px; background: #f5c842; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 13px; color: #333; }
-        .btn-del { padding: 4px 12px; background: #e24b4a; color: white; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 13px; }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/contacts/">Contacts</a>
-    </nav>
-    <h1>Smart City Issue Reporting</h1>
-    <p>Kota Cilegon — Laporkan permasalahan kota di sini.</p>
+{% extends 'base.html' %}
+{% block title %}Laporan Infrastruktur — Cilegon Smart City{% endblock %}
 
-    <a href="/add/" class="btn-tambah">+ Tambah Laporan</a>
+{% block content %}
 
-    <table>
+<!-- Hero Banner -->
+<div class="hero-banner rounded-3 px-4 mb-4">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+    <div>
+      <span class="hero-badge"><i class="bi bi-geo-alt-fill me-1"></i>Kota Cilegon</span>
+      <h1><i class="bi bi-buildings-fill me-2"></i>Cilegon Smart City</h1>
+      <p>Laporkan permasalahan infrastruktur kota agar segera ditangani oleh petugas.</p>
+    </div>
+    <a href="{% url 'add_report' %}" class="btn btn-light fw-bold px-4 py-2 shadow-sm">
+      <i class="bi bi-plus-circle-fill me-2 text-danger"></i>Buat Laporan
+    </a>
+  </div>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card text-center p-3">
+      <div class="fs-2 fw-bold text-warning">{{ reports|length }}</div>
+      <div class="small text-muted mt-1"><i class="bi bi-file-text me-1"></i>Total Laporan</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card text-center p-3">
+      <div class="fs-2 fw-bold" style="color:#C0392B">
+        {% with reports|length as total %}{{ total }}{% endwith %}
+      </div>
+      <div class="small text-muted mt-1"><i class="bi bi-clock me-1"></i>Menunggu</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card text-center p-3">
+      <div class="fs-2 fw-bold text-primary">—</div>
+      <div class="small text-muted mt-1"><i class="bi bi-gear me-1"></i>Diproses</div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card text-center p-3">
+      <div class="fs-2 fw-bold text-success">—</div>
+      <div class="small text-muted mt-1"><i class="bi bi-check-all me-1"></i>Selesai</div>
+    </div>
+  </div>
+</div>
+
+<!-- Breadcrumb + Title -->
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i> Beranda</a></li>
+    <li class="breadcrumb-item active">Daftar Laporan</li>
+  </ol>
+</nav>
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+  <h5 class="fw-bold mb-0"><i class="bi bi-list-ul me-2"></i>Daftar Laporan</h5>
+  <a href="{% url 'add_report' %}" class="btn btn-cilegon btn-sm px-3">
+    <i class="bi bi-plus-circle me-1"></i> Tambah Laporan
+  </a>
+</div>
+
+{% if reports %}
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
         <tr>
-            <th>Judul</th>
-            <th>Kategori</th>
-            <th>Lokasi</th>
-            <th>Status</th>
-            <th>Tanggal</th>
-            <th>Aksi</th>
+          <th style="width:40px">#</th>
+          <th>Judul Laporan</th>
+          <th>Lokasi</th>
+          <th>Status</th>
+          <th class="text-center">Aksi</th>
         </tr>
+      </thead>
+      <tbody>
         {% for report in reports %}
         <tr>
-            <td>{{ report.title }}</td>
-            <td>{{ report.category }}</td>
-            <td>{{ report.location }}</td>
-            <td>
-                <span class="badge badge-{{ report.status|lower }}">
-                    {{ report.get_status_display }}
-                </span>
-            </td>
-            <td>{{ report.created_at|date:"d/m/Y H:i" }}</td>
-            <td>
-                <a href="/edit/{{ report.pk }}/" class="btn-edit">Edit</a>
-                <a href="/delete/{{ report.pk }}/" class="btn-del">Hapus</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="6" style="text-align:center; color:#aaa; padding: 20px;">
-                Belum ada laporan. Klik "Tambah Laporan" untuk mulai.
-            </td>
+          <td class="text-muted fw-semibold">{{ forloop.counter }}</td>
+          <td>
+            <strong>{{ report.title }}</strong>
+            <br><small class="text-muted"><i class="bi bi-tag me-1"></i>{{ report.category }}</small>
+          </td>
+          <td><i class="bi bi-geo-alt text-danger me-1"></i>{{ report.location }}</td>
+          <td>
+            <span class="badge rounded-pill badge-{{ report.status|lower }} px-3 py-2">
+              {{ report.get_status_display }}
+            </span>
+          </td>
+          <td>
+            <div class="d-flex gap-1 justify-content-center flex-wrap">
+              {% if report.status == 'REPORTED' %}
+                <button class="btn btn-info btn-sm text-white"
+                  onclick="confirmStatus('{% url 'verify_report' report.pk %}', 'Verifikasi laporan ini?')">
+                  <i class="bi bi-check2-circle"></i> Verifikasi
+                </button>
+              {% elif report.status == 'VERIFIED' %}
+                <button class="btn btn-warning btn-sm text-white"
+                  onclick="confirmStatus('{% url 'progress_report' report.pk %}', 'Mulai proses laporan ini?')">
+                  <i class="bi bi-gear"></i> Proses
+                </button>
+              {% elif report.status == 'IN_PROGRESS' %}
+                <button class="btn btn-success btn-sm"
+                  onclick="confirmStatus('{% url 'resolve_report' report.pk %}', 'Tandai sebagai Selesai?')">
+                  <i class="bi bi-check-all"></i> Resolve
+                </button>
+              {% endif %}
+              <a href="{% url 'edit_report' report.pk %}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <button class="btn btn-outline-danger btn-sm"
+                onclick="confirmDelete('{% url 'delete_report' report.pk %}', '{{ report.title }}')">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
         </tr>
         {% endfor %}
+      </tbody>
     </table>
-</body>
-</html>
+  </div>
+</div>
+
+{% else %}
+<div class="card">
+  <div class="card-body text-center py-5 my-3">
+    <i class="bi bi-inbox display-1 text-muted"></i>
+    <h5 class="mt-4 fw-bold text-muted">Belum ada laporan</h5>
+    <p class="text-muted mb-4">Jadilah yang pertama melaporkan permasalahan di Kota Cilegon.</p>
+    <a href="{% url 'add_report' %}" class="btn btn-cilegon px-4 py-2">
+      <i class="bi bi-plus-circle me-2"></i>Buat Laporan Pertama
+    </a>
+  </div>
+</div>
+{% endif %}
+
+<!-- Modal Konfirmasi Ubah Status -->
+<div class="modal fade" id="statusModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center pt-0 pb-2">
+        <i class="bi bi-question-circle-fill text-warning display-4"></i>
+        <h5 class="mt-3 fw-bold">Konfirmasi Perubahan Status</h5>
+        <p class="text-muted" id="statusMessage"></p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center pb-4 gap-2">
+        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Batal</button>
+        <a href="#" id="statusConfirmBtn" class="btn btn-cilegon px-4">Ya, Ubah</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center pt-0 pb-2">
+        <i class="bi bi-x-circle-fill text-danger display-4"></i>
+        <h5 class="mt-3 fw-bold">Hapus Laporan?</h5>
+        <p class="text-muted">Laporan <strong id="deleteName"></strong> akan dihapus permanen.<br>Tindakan ini tidak dapat dibatalkan.</p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center pb-4 gap-2">
+        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Batal</button>
+        <a href="#" id="deleteConfirmBtn" class="btn btn-danger px-4">Hapus</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function confirmStatus(url, message) {
+    document.getElementById('statusMessage').textContent = message;
+    document.getElementById('statusConfirmBtn').href = url;
+    new bootstrap.Modal(document.getElementById('statusModal')).show();
+  }
+  function confirmDelete(url, name) {
+    document.getElementById('deleteName').textContent = name;
+    document.getElementById('deleteConfirmBtn').href = url;
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+  }
+</script>
+{% endblock %}

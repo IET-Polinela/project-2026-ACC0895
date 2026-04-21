@@ -1,68 +1,104 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Tentang Kami</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 30px; background-color: #fff8f0; }
-        h1, h2 { color: #c46a00; }
-        p { color: #555; line-height: 1.7; }
-        nav a { margin: 0 15px; text-decoration: none; color: #c46a00; font-weight: bold; }
-        .card { background: white; border: 1px solid #f5c4b3; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 550px; text-align: left; }
-        .card h2 { margin-top: 0; font-size: 16px; }
-        .avatar { width: 80px; height: 80px; border-radius: 50%; background-color: #f5c4b3; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; color: #993C1D; margin: 0 auto 12px; }
-        table { width: 100%; font-size: 14px; border-collapse: collapse; }
-        td { padding: 6px 4px; color: #555; vertical-align: top; }
-        td:first-child { font-weight: bold; color: #993C1D; width: 130px; }
-        .badge { display: inline-block; background: #fff8f0; border: 1px solid #f5c4b3; color: #993C1D; padding: 3px 10px; border-radius: 10px; font-size: 12px; margin: 3px 2px; }
-        .fact { background: #fff8f0; border-left: 3px solid #c46a00; border-radius: 0 6px 6px 0; padding: 10px 14px; margin-bottom: 10px; text-align: left; font-size: 14px; color: #555; }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/about/">About</a>
-        <a href="/contacts/">Contacts</a>
-    </nav>
+{% extends 'base.html' %}
+{% block title %}Tentang — Cilegon Smart City{% endblock %}
 
-    <h1>Tentang Halaman Ini</h1>
-    <p>Kenalan dengan pembuat web dan kota yang menjadi tema project ini.</p>
+{% block content %}
 
-    <div class="card">
-        <h2>Profil Mahasiswa</h2>
-        <div class="avatar">[IN]</div>
-        <table>
-            <tr><td>Nama</td><td>ihsan abdillah</td></tr>
-            <tr><td>NPM</td><td>I24782044</td></tr>
-            <tr><td>Program Studi</td><td>Teknologi Rekayasa Internet</td></tr>
-            <tr><td>Mata Kuliah</td><td>Pemrograman Internet 1 (PIE 1416)</td></tr>
-            <tr><td>Semester</td><td>4</td></tr>
-        </table>
+<!-- Hero Banner -->
+<div class="hero-banner rounded-3 px-4 mb-4">
+  <span class="hero-badge"><i class="bi bi-info-circle me-1"></i>Tentang Kami</span>
+  <h1><i class="bi bi-person-workspace me-2"></i>Profil Pengembang</h1>
+  <p>Sistem Pelaporan Infrastruktur Kota Cilegon — Mata Kuliah PIE 1416</p>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i> Beranda</a></li>
+    <li class="breadcrumb-item active">Tentang</li>
+  </ol>
+</nav>
+
+<div class="col-lg-8 mx-auto">
+  <div class="card shadow-sm mb-4">
+    <div class="card-header card-header-cilegon">
+      <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Profil Mahasiswa</h5>
     </div>
-
-    <div class="card">
-        <h2>Tentang Project Ini</h2>
-        <p style="font-size:14px; margin:0;">
-            Web ini dibuat sebagai bagian dari tugas Lab Session 2 mata kuliah Pemrograman Internet 1.
-            Project ini dibangun menggunakan <strong>Python</strong> dan framework <strong>Django</strong>,
-            dengan tiga halaman utama: Home, About, dan Contacts. Tujuannya adalah memahami
-            alur request-response Django, pengelolaan URL, views, dan template HTML.
-        </p>
-        <br>
+    <div class="card-body p-4">
+      <div class="d-flex align-items-center gap-4 mb-4">
+        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold fs-3 shadow"
+          style="width:72px;height:72px;background:linear-gradient(135deg,#922B21,#C0392B);flex-shrink:0;">IN</div>
         <div>
-            <span class="badge">Python</span>
-            <span class="badge">Django</span>
-            <span class="badge">HTML</span>
-            <span class="badge">CSS</span>
-            <span class="badge">SQLite</span>
+          <h5 class="mb-1 fw-bold">Ihsan Abdillah</h5>
+          <span class="badge bg-danger bg-opacity-75 me-1">NPM: I24782044</span>
+          <span class="badge bg-secondary">Semester 4</span>
         </div>
+      </div>
+      <table class="table table-borderless table-sm mb-0">
+        <tr>
+          <td class="fw-semibold text-muted" style="width:160px"><i class="bi bi-mortarboard me-1"></i>Program Studi</td>
+          <td>Teknologi Rekayasa Internet</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold text-muted"><i class="bi bi-book me-1"></i>Mata Kuliah</td>
+          <td>Pemrograman Internet 1 (PIE 1416)</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold text-muted"><i class="bi bi-building me-1"></i>Institusi</td>
+          <td>Politeknik Negeri Lampung</td>
+        </tr>
+      </table>
     </div>
+  </div>
 
-    <div class="card">
-        <h2>Tentang Kota Cilegon</h2>
-        <div class="fact">Cilegon adalah kota industri terbesar di Provinsi Banten, dikenal sebagai "Kota Baja" karena menjadi lokasi industri baja terbesar di Asia Tenggara.</div>
-        <div class="fact">Kota ini terletak di ujung barat Pulau Jawa, berbatasan langsung dengan Selat Sunda yang menghubungkan Jawa dan Sumatera.</div>
-        <div class="fact">Pelabuhan Merak yang ada di Cilegon merupakan salah satu pelabuhan tersibuk di Indonesia, melayani penyeberangan Jawa–Sumatera setiap harinya.</div>
+  <div class="card shadow-sm mb-4">
+    <div class="card-header card-header-cilegon">
+      <h5 class="mb-0"><i class="bi bi-buildings-fill me-2"></i>Tentang Cilegon Smart City</h5>
     </div>
-</body>
-</html>
+    <div class="card-body p-4">
+      <p>
+        <strong>Cilegon Smart City</strong> adalah sistem pelaporan infrastruktur dan permasalahan kota 
+        yang dikembangkan sebagai bagian dari mata kuliah <strong>PIE 1416 – Pemrograman Internet 1</strong>.
+      </p>
+      <p class="mb-3 text-muted">
+        Aplikasi ini memungkinkan warga melaporkan berbagai permasalahan infrastruktur seperti 
+        jalan rusak, lampu mati, sampah liar, dan lainnya agar dapat segera ditangani 
+        oleh petugas Kota Cilegon, Banten.
+      </p>
+      <div class="d-flex gap-2 flex-wrap">
+        <span class="badge bg-danger px-3 py-2"><i class="bi bi-code-slash me-1"></i>Python</span>
+        <span class="badge bg-dark px-3 py-2"><i class="bi bi-layer-backward me-1"></i>Django</span>
+        <span class="badge bg-primary px-3 py-2"><i class="bi bi-bootstrap me-1"></i>Bootstrap 5</span>
+        <span class="badge bg-secondary px-3 py-2"><i class="bi bi-database me-1"></i>PostgreSQL</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header card-header-cilegon">
+      <h5 class="mb-0"><i class="bi bi-arrow-right-circle me-2"></i>Alur Status Laporan</h5>
+    </div>
+    <div class="card-body p-4">
+      <div class="d-flex gap-2 flex-wrap align-items-center justify-content-center">
+        <div class="text-center">
+          <span class="badge rounded-pill badge-reported fs-6 px-3 py-2 d-block mb-1">Dilaporkan</span>
+          <small class="text-muted">Warga melapor</small>
+        </div>
+        <i class="bi bi-arrow-right text-muted fs-4"></i>
+        <div class="text-center">
+          <span class="badge rounded-pill badge-verified fs-6 px-3 py-2 d-block mb-1">Diverifikasi</span>
+          <small class="text-muted">Cek lapangan</small>
+        </div>
+        <i class="bi bi-arrow-right text-muted fs-4"></i>
+        <div class="text-center">
+          <span class="badge rounded-pill badge-in_progress fs-6 px-3 py-2 d-block mb-1">Diproses</span>
+          <small class="text-muted">Perbaikan</small>
+        </div>
+        <i class="bi bi-arrow-right text-muted fs-4"></i>
+        <div class="text-center">
+          <span class="badge rounded-pill badge-resolved fs-6 px-3 py-2 d-block mb-1">Selesai</span>
+          <small class="text-muted">Tuntas</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
