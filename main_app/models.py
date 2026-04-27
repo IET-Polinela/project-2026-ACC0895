@@ -14,7 +14,6 @@ class Report(models.Model):
         ('IN_PROGRESS', 'Diproses'),
         ('RESOLVED',    'Selesai'),
     ]
-
     title       = models.CharField(max_length=200)
     category    = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     description = models.TextField()

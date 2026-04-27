@@ -11,9 +11,11 @@
       <h1><i class="bi bi-buildings-fill me-2"></i>Cilegon Smart City</h1>
       <p>Laporkan permasalahan infrastruktur kota agar segera ditangani oleh petugas.</p>
     </div>
+    {% if user.is_admin %}
     <a href="{% url 'add_report' %}" class="btn btn-light fw-bold px-4 py-2 shadow-sm">
       <i class="bi bi-plus-circle-fill me-2 text-danger"></i>Buat Laporan
     </a>
+    {% endif %}
   </div>
 </div>
 
@@ -57,9 +59,11 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
   <h5 class="fw-bold mb-0"><i class="bi bi-list-ul me-2"></i>Daftar Laporan</h5>
+  {% if user.is_admin %}
   <a href="{% url 'add_report' %}" class="btn btn-cilegon btn-sm px-3">
     <i class="bi bi-plus-circle me-1"></i> Tambah Laporan
   </a>
+  {% endif %}
 </div>
 
 {% if reports %}
@@ -91,29 +95,31 @@
           </td>
           <td>
             <div class="d-flex gap-1 justify-content-center flex-wrap">
-              {% if report.status == 'REPORTED' %}
-                <button class="btn btn-info btn-sm text-white"
-                  onclick="confirmStatus('{% url 'verify_report' report.pk %}', 'Verifikasi laporan ini?')">
-                  <i class="bi bi-check2-circle"></i> Verifikasi
-                </button>
-              {% elif report.status == 'VERIFIED' %}
-                <button class="btn btn-warning btn-sm text-white"
-                  onclick="confirmStatus('{% url 'progress_report' report.pk %}', 'Mulai proses laporan ini?')">
-                  <i class="bi bi-gear"></i> Proses
-                </button>
-              {% elif report.status == 'IN_PROGRESS' %}
-                <button class="btn btn-success btn-sm"
-                  onclick="confirmStatus('{% url 'resolve_report' report.pk %}', 'Tandai sebagai Selesai?')">
-                  <i class="bi bi-check-all"></i> Resolve
+              {% if user.is_admin %}
+                {% if report.status == 'REPORTED' %}
+                  <button class="btn btn-info btn-sm text-white"
+                    onclick="confirmStatus('{% url 'verify_report' report.pk %}', 'Verifikasi laporan ini?')">
+                    <i class="bi bi-check2-circle"></i> Verifikasi
+                  </button>
+                {% elif report.status == 'VERIFIED' %}
+                  <button class="btn btn-warning btn-sm text-white"
+                    onclick="confirmStatus('{% url 'progress_report' report.pk %}', 'Mulai proses laporan ini?')">
+                    <i class="bi bi-gear"></i> Proses
+                  </button>
+                {% elif report.status == 'IN_PROGRESS' %}
+                  <button class="btn btn-success btn-sm"
+                    onclick="confirmStatus('{% url 'resolve_report' report.pk %}', 'Tandai sebagai Selesai?')">
+                    <i class="bi bi-check-all"></i> Resolve
+                  </button>
+                {% endif %}
+                <a href="{% url 'edit_report' report.pk %}" class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <button class="btn btn-outline-danger btn-sm"
+                  onclick="confirmDelete('{% url 'delete_report' report.pk %}', '{{ report.title }}')">
+                  <i class="bi bi-trash"></i>
                 </button>
               {% endif %}
-              <a href="{% url 'edit_report' report.pk %}" class="btn btn-outline-secondary btn-sm">
-                <i class="bi bi-pencil"></i>
-              </a>
-              <button class="btn btn-outline-danger btn-sm"
-                onclick="confirmDelete('{% url 'delete_report' report.pk %}', '{{ report.title }}')">
-                <i class="bi bi-trash"></i>
-              </button>
             </div>
           </td>
         </tr>
@@ -129,9 +135,11 @@
     <i class="bi bi-inbox display-1 text-muted"></i>
     <h5 class="mt-4 fw-bold text-muted">Belum ada laporan</h5>
     <p class="text-muted mb-4">Jadilah yang pertama melaporkan permasalahan di Kota Cilegon.</p>
+    {% if user.is_admin %}
     <a href="{% url 'add_report' %}" class="btn btn-cilegon px-4 py-2">
       <i class="bi bi-plus-circle me-2"></i>Buat Laporan Pertama
     </a>
+    {% endif %}
   </div>
 </div>
 {% endif %}
@@ -156,7 +164,7 @@
   </div>
 </div>
 
-<!-- Modal Konfirmasi Hapus -->
+<!-- Modal Konfirmasi Hapus — pakai FORM POST bukan <a href> -->
 <div class="modal fade" id="deleteModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow rounded-4">
@@ -170,7 +178,13 @@
       </div>
       <div class="modal-footer border-0 justify-content-center pb-4 gap-2">
         <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Batal</button>
-        <a href="#" id="deleteConfirmBtn" class="btn btn-danger px-4">Hapus</a>
+        <!-- PERBAIKAN: form POST, bukan <a href> -->
+        <form method="POST" id="deleteForm" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger px-4">
+            <i class="bi bi-trash me-1"></i> Hapus
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -185,9 +199,11 @@
     document.getElementById('statusConfirmBtn').href = url;
     new bootstrap.Modal(document.getElementById('statusModal')).show();
   }
+
   function confirmDelete(url, name) {
     document.getElementById('deleteName').textContent = name;
-    document.getElementById('deleteConfirmBtn').href = url;
+    // Set action form ke URL delete yang benar (POST request)
+    document.getElementById('deleteForm').action = url;
     new bootstrap.Modal(document.getElementById('deleteModal')).show();
   }
 </script>

@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'main_app',
     'about',
     'contacts',
+    'usermanagement_24782044',
 ]
 
 MIDDLEWARE = [
@@ -72,12 +73,16 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+AUTH_USER_MODEL = 'usermanagement_24782044.User'
+
 LANGUAGE_CODE = 'id'
 TIME_ZONE = 'Asia/Jakarta'
 USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = 'static/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
 
 from django.contrib.messages import constants as msg
 MESSAGE_TAGS = {
