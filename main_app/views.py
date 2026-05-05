@@ -30,6 +30,17 @@ class HomeView(ListView):
     context_object_name = 'reports'
 
 
+class ReportListView(ListView):
+    """Separate report listing page using `report_list.html`.
+
+    This ensures `/reports/` shows the dedicated list template instead of
+    the homepage hero and stats.
+    """
+    model = Report
+    template_name = 'main_app/report_list.html'
+    context_object_name = 'reports'
+
+
 # ─── CRUD: hanya Admin ────────────────────────────────────────────────────
 class AddReportView(AdminRequiredMixin, CreateView):
     model = Report
@@ -46,7 +57,8 @@ class EditReportView(AdminRequiredMixin, UpdateView):
     model = Report
     form_class = ReportForm
     template_name = 'main_app/edit_report.html'
-    success_url = reverse_lazy('home')
+    # Setelah edit, kembali ke daftar laporan, bukan beranda
+    success_url = reverse_lazy('report_list')
 
     def form_valid(self, form):
         messages.success(self.request, '✅ Laporan berhasil diperbarui!')

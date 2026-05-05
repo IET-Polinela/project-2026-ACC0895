@@ -1,210 +1,469 @@
 {% extends 'base.html' %}
-{% block title %}Laporan Infrastruktur — Cilegon Smart City{% endblock %}
+{% block title %}Beranda — Cilegon Smart City{% endblock %}
 
 {% block content %}
 
-<!-- Hero Banner -->
-<div class="hero-banner rounded-3 px-4 mb-4">
-  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
-    <div>
-      <span class="hero-badge"><i class="bi bi-geo-alt-fill me-1"></i>Kota Cilegon</span>
-      <h1><i class="bi bi-buildings-fill me-2"></i>Cilegon Smart City</h1>
-      <p>Laporkan permasalahan infrastruktur kota agar segera ditangani oleh petugas.</p>
+<!-- ══════════════════════════════════════════════════════════════════
+     HERO SECTION — Ilustrasi Kota Cilegon dengan Menara Cilegon
+     ══════════════════════════════════════════════════════════════════ -->
+<style>
+  /* Hero */
+  .hero-section {
+    background: linear-gradient(160deg, #0d2137 0%, #1a3a5c 40%, #1e5c8e 70%, #2980b9 100%);
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    position: relative;
+    min-height: 420px;
+    display: flex;
+    align-items: stretch;
+  }
+  .hero-left {
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+    flex: 1;
+    min-width: 0;
+  }
+  .hero-badge-custom {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 600;
+    padding: 4px 14px;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 1rem;
+    width: fit-content;
+  }
+  .hero-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: .6rem;
+  }
+  .hero-sub {
+    font-size: .95rem;
+    color: rgba(255,255,255,.8);
+    margin-bottom: 1.8rem;
+    line-height: 1.6;
+    max-width: 400px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+  }
+  .hero-right {
+    flex: 0 0 420px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .hero-right { display: none; }
+    .hero-title { font-size: 1.6rem; }
+  }
+
+  /* Clouds */
+  @keyframes floatCloud {
+    0%   { transform: translateX(0); }
+    50%  { transform: translateX(18px); }
+    100% { transform: translateX(0); }
+  }
+  .cloud-anim { animation: floatCloud 8s ease-in-out infinite; }
+  .cloud-anim2 { animation: floatCloud 11s ease-in-out infinite 2s; }
+
+  /* Stat cards */
+  .stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.2rem 1.4rem;
+    box-shadow: 0 3px 14px rgba(0,0,0,.08);
+    border-top: 4px solid var(--accent-color, #C0392B);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+  .stat-number { font-size: 2rem; font-weight: 700; }
+  .stat-label  { font-size: .8rem; color: #6c757d; font-weight: 500; margin-top: 2px; }
+
+  /* Feature cards */
+  .feature-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    height: 100%;
+    transition: transform .2s;
+  }
+  .feature-card:hover { transform: translateY(-3px); }
+  .feature-icon {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1rem;
+  }
+  .section-label {
+    font-size: .75rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: #C0392B; margin-bottom: .4rem;
+  }
+  .section-heading { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; margin-bottom: .5rem; }
+</style>
+
+<!-- HERO -->
+<div class="hero-section shadow-lg mb-4">
+  <!-- Teks kiri -->
+  <div class="hero-left">
+    <div class="hero-badge-custom">
+      <i class="bi bi-geo-alt-fill"></i> Kota Cilegon, Banten
     </div>
-    {% if user.is_admin %}
-    <a href="{% url 'add_report' %}" class="btn btn-light fw-bold px-4 py-2 shadow-sm">
-      <i class="bi bi-plus-circle-fill me-2 text-danger"></i>Buat Laporan
-    </a>
-    {% endif %}
+    <h1 class="hero-title">Cilegon<br>Smart City</h1>
+    <p class="hero-sub">
+      Platform pelaporan infrastruktur digital Kota Cilegon. Laporkan permasalahan,
+      pantau penanganan, dan wujudkan kota yang lebih baik bersama.
+    </p>
+    <div class="hero-cta">
+      <a href="/reports/" class="btn btn-light fw-bold px-4 py-2 shadow-sm">
+        <i class="bi bi-file-earmark-text-fill me-2 text-danger"></i>Lihat Laporan
+      </a>
+      <a href="{% url 'dashboard:dashboard' %}" class="btn btn-outline-light fw-semibold px-4 py-2">
+        <i class="bi bi-bar-chart-fill me-2"></i>Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- Ilustrasi SVG kota Cilegon dengan Menara Cilegon -->
+  <div class="hero-right">
+    <svg width="100%" height="100%" viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <!-- Langit gradient -->
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1565C0"/>
+          <stop offset="60%"  stop-color="#1976D2"/>
+          <stop offset="100%" stop-color="#42A5F5"/>
+        </linearGradient>
+        <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#2E7D32"/>
+          <stop offset="100%" stop-color="#1B5E20"/>
+        </linearGradient>
+        <linearGradient id="towerGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#B0BEC5"/>
+          <stop offset="50%"  stop-color="#ECEFF1"/>
+          <stop offset="100%" stop-color="#90A4AE"/>
+        </linearGradient>
+        <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#1565C0" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#0D47A1" stop-opacity="0.9"/>
+        </linearGradient>
+        <linearGradient id="roadGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#37474F"/>
+          <stop offset="100%" stop-color="#263238"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Langit -->
+      <rect x="0" y="0" width="420" height="420" fill="url(#skyGrad)"/>
+
+      <!-- Matahari -->
+      <circle cx="340" cy="60" r="36" fill="#FFF176" opacity="0.9"/>
+      <circle cx="340" cy="60" r="46" fill="#FFF176" opacity="0.2"/>
+      <circle cx="340" cy="60" r="58" fill="#FFF176" opacity="0.08"/>
+
+      <!-- Awan -->
+      <g class="cloud-anim" opacity="0.9">
+        <ellipse cx="80"  cy="85" rx="38" ry="18" fill="#fff"/>
+        <ellipse cx="58"  cy="92" rx="22" ry="15" fill="#fff"/>
+        <ellipse cx="108" cy="92" rx="22" ry="14" fill="#fff"/>
+        <ellipse cx="80"  cy="95" rx="40" ry="14" fill="#fff"/>
+      </g>
+      <g class="cloud-anim2" opacity="0.75">
+        <ellipse cx="270" cy="55" rx="30" ry="14" fill="#fff"/>
+        <ellipse cx="252" cy="62" rx="18" ry="11" fill="#fff"/>
+        <ellipse cx="292" cy="62" rx="18" ry="11" fill="#fff"/>
+        <ellipse cx="270" cy="65" rx="32" ry="11" fill="#fff"/>
+      </g>
+      <g opacity="0.6">
+        <ellipse cx="160" cy="40" rx="24" ry="11" fill="#fff"/>
+        <ellipse cx="144" cy="46" rx="14" ry="9"  fill="#fff"/>
+        <ellipse cx="178" cy="46" rx="14" ry="9"  fill="#fff"/>
+      </g>
+
+      <!-- ══════════════════════════════════════════════
+           MENARA CILEGON — Ikon utama kota
+           ══════════════════════════════════════════════ -->
+      <!-- Fondasi lebar -->
+      <rect x="178" y="310" width="64" height="12" rx="3" fill="#546E7A"/>
+      <!-- Badan bawah menara (melebar) -->
+      <polygon points="186,310 214,310 214,270 206,270 206,265 214,265 214,260 206,260 206,252 214,252 214,245 186,245 186,252 194,252 194,260 186,260 186,265 194,265 194,270 186,270" fill="url(#towerGrad)"/>
+      <!-- Jendela bawah kiri -->
+      <rect x="188" y="255" width="6"  height="8" rx="1" fill="#B0BEC5" opacity="0.5"/>
+      <!-- Jendela bawah kanan -->
+      <rect x="206" y="255" width="6"  height="8" rx="1" fill="#B0BEC5" opacity="0.5"/>
+
+      <!-- Pinggang menara (menyempit) -->
+      <rect x="196" y="220" width="28" height="25" fill="url(#towerGrad)"/>
+      <!-- Garis dekoratif horizontal -->
+      <line x1="196" y1="228" x2="224" y2="228" stroke="#90A4AE" stroke-width="1"/>
+      <line x1="196" y1="234" x2="224" y2="234" stroke="#90A4AE" stroke-width="1"/>
+
+      <!-- Platform observasi (melebar kembali) -->
+      <rect x="185" y="208" width="50" height="12" rx="3" fill="#607D8B"/>
+      <!-- Pagar platform -->
+      <line x1="187" y1="208" x2="187" y2="203" stroke="#90A4AE" stroke-width="1.5"/>
+      <line x1="196" y1="208" x2="196" y2="203" stroke="#90A4AE" stroke-width="1.5"/>
+      <line x1="210" y1="208" x2="210" y2="203" stroke="#90A4AE" stroke-width="1.5"/>
+      <line x1="224" y1="208" x2="224" y2="203" stroke="#90A4AE" stroke-width="1.5"/>
+      <line x1="233" y1="208" x2="233" y2="203" stroke="#90A4AE" stroke-width="1.5"/>
+      <line x1="185" y1="203" x2="235" y2="203" stroke="#90A4AE" stroke-width="1"/>
+
+      <!-- Badan atas (silinder tipis) -->
+      <rect x="203" y="145" width="14" height="63" fill="url(#towerGrad)"/>
+      <!-- Garis detail vertikal -->
+      <line x1="207" y1="145" x2="207" y2="208" stroke="#90A4AE" stroke-width="0.8" opacity="0.5"/>
+      <line x1="213" y1="145" x2="213" y2="208" stroke="#90A4AE" stroke-width="0.8" opacity="0.5"/>
+
+      <!-- Kepala / bulatan menara -->
+      <ellipse cx="210" cy="138" rx="18" ry="10" fill="#546E7A"/>
+      <ellipse cx="210" cy="134" rx="16" ry="12" fill="#607D8B"/>
+      <ellipse cx="210" cy="130" rx="12" ry="9"  fill="#78909C"/>
+
+      <!-- Antena puncak -->
+      <line x1="210" y1="130" x2="210" y2="108" stroke="#546E7A" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="210" y1="108" x2="210" y2="98"  stroke="#B0BEC5" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Lampu merah di puncak -->
+      <circle cx="210" cy="96" r="4" fill="#EF5350"/>
+      <circle cx="210" cy="96" r="6" fill="#EF5350" opacity="0.3"/>
+
+      <!-- Label teks Menara Cilegon (dengan background) -->
+      <rect x="168" y="319" width="84" height="16" rx="4" fill="rgba(0,0,0,0.45)"/>
+      <text x="210" y="330" text-anchor="middle" fill="#ECEFF1" font-size="9" font-weight="600" font-family="Inter,sans-serif">MENARA CILEGON</text>
+
+      <!-- ══════════════════════════════════════
+           GEDUNG PEMERINTAHAN (kiri menara)
+           ══════════════════════════════════════ -->
+      <!-- Gedung besar kiri -->
+      <rect x="20"  y="255" width="70" height="65" rx="3" fill="#455A64"/>
+      <rect x="20"  y="248" width="70" height="10"  fill="#546E7A"/>
+      <!-- Kolom-kolom gedung -->
+      <rect x="25"  y="258" width="8" height="60" fill="#37474F" opacity="0.5"/>
+      <rect x="39"  y="258" width="8" height="60" fill="#37474F" opacity="0.5"/>
+      <rect x="53"  y="258" width="8" height="60" fill="#37474F" opacity="0.5"/>
+      <rect x="67"  y="258" width="8" height="60" fill="#37474F" opacity="0.5"/>
+      <!-- Jendela gedung kiri -->
+      <rect x="27"  y="262" width="5" height="7" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="27"  y="275" width="5" height="7" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="27"  y="288" width="5" height="7" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="41"  y="262" width="5" height="7" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="41"  y="275" width="5" height="7" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="41"  y="288" width="5" height="7" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="55"  y="262" width="5" height="7" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="55"  y="275" width="5" height="7" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="55"  y="288" width="5" height="7" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="69"  y="262" width="5" height="7" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="69"  y="275" width="5" height="7" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="69"  y="288" width="5" height="7" rx="1" fill="#FFE082" opacity="0.8"/>
+      <!-- Pintu masuk gedung -->
+      <rect x="40"  y="300" width="10" height="20" rx="5" fill="#1A237E"/>
+      <rect x="40"  y="300" width="10" height="10" rx="5" fill="#283593"/>
+
+      <!-- Gedung medium kiri-tengah -->
+      <rect x="100" y="270" width="45" height="50" rx="2" fill="#37474F"/>
+      <rect x="100" y="263" width="45" height="10" fill="#455A64"/>
+      <!-- Jendela gedung kiri-tengah -->
+      <rect x="104" y="274" width="5" height="6" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="114" y="274" width="5" height="6" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="124" y="274" width="5" height="6" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="134" y="274" width="5" height="6" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="104" y="286" width="5" height="6" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="114" y="286" width="5" height="6" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="124" y="286" width="5" height="6" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="134" y="286" width="5" height="6" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="104" y="298" width="5" height="6" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="114" y="298" width="5" height="6" rx="1" fill="#FFE082" opacity="0.7"/>
+
+      <!-- ══════════════════════════════════════
+           GEDUNG SISI KANAN MENARA
+           ══════════════════════════════════════ -->
+      <!-- Gedung tinggi kanan -->
+      <rect x="280" y="230" width="55" height="90" rx="2" fill="#455A64"/>
+      <rect x="280" y="222" width="55" height="12" fill="#546E7A"/>
+      <!-- Jendela gedung kanan tinggi -->
+      <rect x="285" y="234" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="297" y="234" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="309" y="234" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="321" y="234" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="285" y="248" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="297" y="248" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="309" y="248" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="321" y="248" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="285" y="262" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="297" y="262" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="309" y="262" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="321" y="262" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="285" y="276" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="297" y="276" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="309" y="276" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+      <rect x="321" y="276" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="285" y="290" width="6" height="8" rx="1" fill="#B3E5FC" opacity="0.8"/>
+      <rect x="297" y="290" width="6" height="8" rx="1" fill="#FFE082" opacity="0.8"/>
+
+      <!-- Gedung rendah kanan -->
+      <rect x="350" y="280" width="60" height="40" rx="2" fill="#37474F"/>
+      <rect x="350" y="272" width="60" height="12" fill="#455A64"/>
+      <rect x="355" y="284" width="6" height="7" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="367" y="284" width="6" height="7" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="379" y="284" width="6" height="7" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="391" y="284" width="6" height="7" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="355" y="296" width="6" height="7" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="367" y="296" width="6" height="7" rx="1" fill="#B3E5FC" opacity="0.7"/>
+      <rect x="379" y="296" width="6" height="7" rx="1" fill="#FFE082" opacity="0.7"/>
+      <rect x="391" y="296" width="6" height="7" rx="1" fill="#B3E5FC" opacity="0.7"/>
+
+      <!-- ══════════════════════════════════════
+           SELAT SUNDA (latar belakang)
+           ══════════════════════════════════════ -->
+      <rect x="0" y="152" width="420" height="80" fill="url(#waterGrad)" opacity="0.4"/>
+      <!-- Riak air -->
+      <path d="M0 168 Q50 162 100 168 Q150 174 200 168 Q250 162 300 168 Q350 174 420 168" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+      <path d="M0 180 Q60 175 120 180 Q180 185 240 180 Q300 175 360 180 Q390 182 420 180" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <!-- Kapal kecil (industri Cilegon) -->
+      <rect x="50"  y="175" width="30" height="6" rx="2" fill="#B0BEC5"/>
+      <rect x="58"  y="170" width="14" height="6" rx="1" fill="#90A4AE"/>
+      <line x1="65" y1="170" x2="65" y2="162" stroke="#78909C" stroke-width="1.5"/>
+      <rect x="300" y="178" width="22" height="5" rx="2" fill="#B0BEC5"/>
+      <rect x="306" y="174" width="10" height="5" rx="1" fill="#90A4AE"/>
+
+      <!-- ══════════════════════════════════════
+           TANAH / JALAN
+           ══════════════════════════════════════ -->
+      <rect x="0" y="318" width="420" height="102" fill="url(#groundGrad)"/>
+      <!-- Jalan utama -->
+      <rect x="0" y="318" width="420" height="14" fill="url(#roadGrad)"/>
+      <!-- Garis marka jalan -->
+      <line x1="0"   y1="325" x2="30"  y2="325" stroke="#FFF176" stroke-width="1.5" stroke-dasharray="20,10"/>
+      <line x1="60"  y1="325" x2="90"  y2="325" stroke="#FFF176" stroke-width="1.5" stroke-dasharray="20,10"/>
+      <line x1="120" y1="325" x2="150" y2="325" stroke="#FFF176" stroke-width="1.5" stroke-dasharray="20,10"/>
+      <line x1="180" y1="325" x2="380" y2="325" stroke="#FFF176" stroke-width="1.5" stroke-dasharray="20,10"/>
+
+      <!-- Pohon kiri -->
+      <rect x="14"  y="308" width="4" height="12" fill="#4E342E"/>
+      <ellipse cx="16"  cy="305" rx="10" ry="11" fill="#388E3C"/>
+      <ellipse cx="12"  cy="310" rx="7"  ry="8"  fill="#43A047"/>
+      <ellipse cx="20"  cy="310" rx="7"  ry="8"  fill="#2E7D32"/>
+
+      <!-- Pohon kiri 2 -->
+      <rect x="154" y="308" width="4" height="12" fill="#4E342E"/>
+      <ellipse cx="156" cy="305" rx="10" ry="11" fill="#388E3C"/>
+      <ellipse cx="152" cy="310" rx="7"  ry="8"  fill="#43A047"/>
+      <ellipse cx="160" cy="310" rx="7"  ry="8"  fill="#2E7D32"/>
+
+      <!-- Pohon kanan -->
+      <rect x="364" y="308" width="4" height="12" fill="#4E342E"/>
+      <ellipse cx="366" cy="305" rx="10" ry="11" fill="#388E3C"/>
+      <ellipse cx="362" cy="310" rx="7"  ry="8"  fill="#43A047"/>
+      <ellipse cx="370" cy="310" rx="7"  ry="8"  fill="#2E7D32"/>
+
+      <!-- Taman / tumbuhan hijau -->
+      <ellipse cx="260" cy="330" rx="20" ry="8" fill="#2E7D32" opacity="0.5"/>
+      <ellipse cx="380" cy="335" rx="16" ry="6" fill="#2E7D32" opacity="0.4"/>
+      <ellipse cx="40"  cy="334" rx="16" ry="6" fill="#2E7D32" opacity="0.4"/>
+
+      <!-- Lampu jalan kiri -->
+      <line x1="130" y1="318" x2="130" y2="290" stroke="#546E7A" stroke-width="2.5"/>
+      <path d="M130 290 Q128 278 118 277" fill="none" stroke="#546E7A" stroke-width="2"/>
+      <circle cx="117" cy="277" r="4" fill="#FFF176" opacity="0.9"/>
+      <circle cx="117" cy="277" r="6" fill="#FFF176" opacity="0.25"/>
+
+      <!-- Lampu jalan kanan -->
+      <line x1="290" y1="318" x2="290" y2="290" stroke="#546E7A" stroke-width="2.5"/>
+      <path d="M290 290 Q292 278 302 277" fill="none" stroke="#546E7A" stroke-width="2"/>
+      <circle cx="303" cy="277" r="4" fill="#FFF176" opacity="0.9"/>
+      <circle cx="303" cy="277" r="6" fill="#FFF176" opacity="0.25"/>
+
+      <!-- Overlay gradasi bawah agar menyatu -->
+      <rect x="0" y="380" width="420" height="40" fill="#1B5E20" opacity="0.6"/>
+    </svg>
   </div>
 </div>
 
-<!-- Stats Row -->
+<!-- ══════════════════════════════════════════
+     STATISTIK RINGKAS
+     ══════════════════════════════════════════ -->
 <div class="row g-3 mb-4">
   <div class="col-6 col-md-3">
-    <div class="card text-center p-3">
-      <div class="fs-2 fw-bold text-warning">{{ reports|length }}</div>
-      <div class="small text-muted mt-1"><i class="bi bi-file-text me-1"></i>Total Laporan</div>
+    <div class="stat-card" style="--accent-color:#6c757d">
+      <div class="stat-number text-secondary">{{ total_reports }}</div>
+      <div class="stat-label"><i class="bi bi-file-text me-1"></i>Total Laporan</div>
     </div>
   </div>
   <div class="col-6 col-md-3">
-    <div class="card text-center p-3">
-      <div class="fs-2 fw-bold" style="color:#C0392B">
-        {% with reports|length as total %}{{ total }}{% endwith %}
-      </div>
-      <div class="small text-muted mt-1"><i class="bi bi-clock me-1"></i>Menunggu</div>
+    <div class="stat-card" style="--accent-color:#f5c842">
+      <div class="stat-number text-warning">{{ total_reported }}</div>
+      <div class="stat-label"><i class="bi bi-clock me-1"></i>Menunggu Tindakan</div>
     </div>
   </div>
   <div class="col-6 col-md-3">
-    <div class="card text-center p-3">
-      <div class="fs-2 fw-bold text-primary">—</div>
-      <div class="small text-muted mt-1"><i class="bi bi-gear me-1"></i>Diproses</div>
+    <div class="stat-card" style="--accent-color:#6f42c1">
+      <div class="stat-number" style="color:#6f42c1">{{ total_progress }}</div>
+      <div class="stat-label"><i class="bi bi-gear me-1"></i>Sedang Diproses</div>
     </div>
   </div>
   <div class="col-6 col-md-3">
-    <div class="card text-center p-3">
-      <div class="fs-2 fw-bold text-success">—</div>
-      <div class="small text-muted mt-1"><i class="bi bi-check-all me-1"></i>Selesai</div>
+    <div class="stat-card" style="--accent-color:#198754">
+      <div class="stat-number text-success">{{ total_resolved }}</div>
+      <div class="stat-label"><i class="bi bi-check-all me-1"></i>Selesai Ditangani</div>
     </div>
   </div>
 </div>
 
-<!-- Breadcrumb + Title -->
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i> Beranda</a></li>
-    <li class="breadcrumb-item active">Daftar Laporan</li>
-  </ol>
-</nav>
+<!-- ══════════════════════════════════════════
+     FITUR UNGGULAN
+     ══════════════════════════════════════════ -->
+<div class="mb-4">
+  <div class="section-label">Layanan Kami</div>
+  <h2 class="section-heading">Platform Laporan Cerdas</h2>
+  <p class="text-muted mb-4" style="max-width:520px">Sistem pelaporan berbasis digital untuk memudahkan warga melaporkan permasalahan infrastruktur dan memantau progres penanganannya secara real-time.</p>
 
-<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-  <h5 class="fw-bold mb-0"><i class="bi bi-list-ul me-2"></i>Daftar Laporan</h5>
-  {% if user.is_admin %}
-  <a href="{% url 'add_report' %}" class="btn btn-cilegon btn-sm px-3">
-    <i class="bi bi-plus-circle me-1"></i> Tambah Laporan
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fef9c3"><i class="bi bi-megaphone-fill text-warning fs-4"></i></div>
+        <h6 class="fw-bold mb-2">Lapor Mudah</h6>
+        <p class="text-muted small mb-0">Laporkan kerusakan jalan, lampu mati, sampah, dan masalah infrastruktur lainnya hanya dalam beberapa klik.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#dcfce7"><i class="bi bi-bar-chart-fill text-success fs-4"></i></div>
+        <h6 class="fw-bold mb-2">Dashboard Real-time</h6>
+        <p class="text-muted small mb-0">Pantau statistik laporan secara visual dengan grafik interaktif yang diperbarui setiap saat.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fee2e2"><i class="bi bi-shield-check-fill text-danger fs-4"></i></div>
+        <h6 class="fw-bold mb-2">Terpercaya & Aman</h6>
+        <p class="text-muted small mb-0">Sistem autentikasi terjamin. Data laporan diverifikasi dan ditangani oleh petugas yang berwenang.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA Button -->
+<div class="text-center py-3">
+  <a href="/reports/" class="btn btn-cilegon px-5 py-2 me-2">
+    <i class="bi bi-file-earmark-text me-2"></i>Lihat Semua Laporan
   </a>
-  {% endif %}
+  <a href="{% url 'dashboard:dashboard' %}" class="btn btn-outline-secondary px-5 py-2">
+    <i class="bi bi-bar-chart me-2"></i>Buka Dashboard
+  </a>
 </div>
 
-{% if reports %}
-<div class="card shadow-sm">
-  <div class="table-responsive">
-    <table class="table table-hover align-middle mb-0">
-      <thead>
-        <tr>
-          <th style="width:40px">#</th>
-          <th>Judul Laporan</th>
-          <th>Lokasi</th>
-          <th>Status</th>
-          <th class="text-center">Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for report in reports %}
-        <tr>
-          <td class="text-muted fw-semibold">{{ forloop.counter }}</td>
-          <td>
-            <strong>{{ report.title }}</strong>
-            <br><small class="text-muted"><i class="bi bi-tag me-1"></i>{{ report.category }}</small>
-          </td>
-          <td><i class="bi bi-geo-alt text-danger me-1"></i>{{ report.location }}</td>
-          <td>
-            <span class="badge rounded-pill badge-{{ report.status|lower }} px-3 py-2">
-              {{ report.get_status_display }}
-            </span>
-          </td>
-          <td>
-            <div class="d-flex gap-1 justify-content-center flex-wrap">
-              {% if user.is_admin %}
-                {% if report.status == 'REPORTED' %}
-                  <button class="btn btn-info btn-sm text-white"
-                    onclick="confirmStatus('{% url 'verify_report' report.pk %}', 'Verifikasi laporan ini?')">
-                    <i class="bi bi-check2-circle"></i> Verifikasi
-                  </button>
-                {% elif report.status == 'VERIFIED' %}
-                  <button class="btn btn-warning btn-sm text-white"
-                    onclick="confirmStatus('{% url 'progress_report' report.pk %}', 'Mulai proses laporan ini?')">
-                    <i class="bi bi-gear"></i> Proses
-                  </button>
-                {% elif report.status == 'IN_PROGRESS' %}
-                  <button class="btn btn-success btn-sm"
-                    onclick="confirmStatus('{% url 'resolve_report' report.pk %}', 'Tandai sebagai Selesai?')">
-                    <i class="bi bi-check-all"></i> Resolve
-                  </button>
-                {% endif %}
-                <a href="{% url 'edit_report' report.pk %}" class="btn btn-outline-secondary btn-sm">
-                  <i class="bi bi-pencil"></i>
-                </a>
-                <button class="btn btn-outline-danger btn-sm"
-                  onclick="confirmDelete('{% url 'delete_report' report.pk %}', '{{ report.title }}')">
-                  <i class="bi bi-trash"></i>
-                </button>
-              {% endif %}
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-{% else %}
-<div class="card">
-  <div class="card-body text-center py-5 my-3">
-    <i class="bi bi-inbox display-1 text-muted"></i>
-    <h5 class="mt-4 fw-bold text-muted">Belum ada laporan</h5>
-    <p class="text-muted mb-4">Jadilah yang pertama melaporkan permasalahan di Kota Cilegon.</p>
-    {% if user.is_admin %}
-    <a href="{% url 'add_report' %}" class="btn btn-cilegon px-4 py-2">
-      <i class="bi bi-plus-circle me-2"></i>Buat Laporan Pertama
-    </a>
-    {% endif %}
-  </div>
-</div>
-{% endif %}
-
-<!-- Modal Konfirmasi Ubah Status -->
-<div class="modal fade" id="statusModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow rounded-4">
-      <div class="modal-header border-0 pb-0">
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body text-center pt-0 pb-2">
-        <i class="bi bi-question-circle-fill text-warning display-4"></i>
-        <h5 class="mt-3 fw-bold">Konfirmasi Perubahan Status</h5>
-        <p class="text-muted" id="statusMessage"></p>
-      </div>
-      <div class="modal-footer border-0 justify-content-center pb-4 gap-2">
-        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Batal</button>
-        <a href="#" id="statusConfirmBtn" class="btn btn-cilegon px-4">Ya, Ubah</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Konfirmasi Hapus — pakai FORM POST bukan <a href> -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow rounded-4">
-      <div class="modal-header border-0 pb-0">
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body text-center pt-0 pb-2">
-        <i class="bi bi-x-circle-fill text-danger display-4"></i>
-        <h5 class="mt-3 fw-bold">Hapus Laporan?</h5>
-        <p class="text-muted">Laporan <strong id="deleteName"></strong> akan dihapus permanen.<br>Tindakan ini tidak dapat dibatalkan.</p>
-      </div>
-      <div class="modal-footer border-0 justify-content-center pb-4 gap-2">
-        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Batal</button>
-        <!-- PERBAIKAN: form POST, bukan <a href> -->
-        <form method="POST" id="deleteForm" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger px-4">
-            <i class="bi bi-trash me-1"></i> Hapus
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-{% endblock %}
-
-{% block extra_js %}
-<script>
-  function confirmStatus(url, message) {
-    document.getElementById('statusMessage').textContent = message;
-    document.getElementById('statusConfirmBtn').href = url;
-    new bootstrap.Modal(document.getElementById('statusModal')).show();
-  }
-
-  function confirmDelete(url, name) {
-    document.getElementById('deleteName').textContent = name;
-    // Set action form ke URL delete yang benar (POST request)
-    document.getElementById('deleteForm').action = url;
-    new bootstrap.Modal(document.getElementById('deleteModal')).show();
-  }
-</script>
 {% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Dashboard Laporan</h2>
+
+  <!-- Grafik -->
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card p-3">
+        <h5>Distribusi Status</h5>
+        <canvas id="statusChart"></canvas>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="card p-3">
+        <h5>Distribusi Kategori</h5>
+        <canvas id="categoryChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabel Recent -->
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <h5>5 Laporan Terbaru (REPORTED)</h5>
+      <table class="table table-sm" id="recentReportedTable">
+        <thead><tr><th>Judul</th><th>Kategori</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <h5>5 Laporan Selesai (RESOLVED)</h5>
+      <table class="table table-sm" id="recentResolvedTable">
+        <thead><tr><th>Judul</th><th>Kategori</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Live Search -->
+  <div class="mt-4">
+    <h5>Cari Laporan</h5>
+    <input type="text" id="searchInput" class="form-control" placeholder="Ketik judul laporan...">
+    <table class="table mt-2" id="searchResultTable">
+      <thead><tr><th>Judul</th><th>Status</th><th>Kategori</th><th>Aksi</th></tr></thead>
+      <tbody id="searchResultBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Detail -->
+<div class="modal fade" id="detailModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Detail Laporan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CDN Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // ===== 1. LOAD STATS & RENDER CHARTS =====
+  fetch("{% url 'dashboard:stats' %}")
+    .then(res => res.json())
+    .then(data => {
+      console.log('Data JSON diterima:', data); // Untuk screenshot console log
+
+      // -- Doughnut Chart: Status --
+      const statusLabels = data.status_distribution.map(d => d.status);
+      const statusCounts = data.status_distribution.map(d => d.count);
+      new Chart(document.getElementById('statusChart'), {
+        type: 'doughnut',
+        data: {
+          labels: statusLabels,
+          datasets: [{ data: statusCounts,
+            backgroundColor: ['#f6c23e','#36b9cc','#4e73df','#1cc88a']
+          }]
+        }
+      });
+
+      // -- Bar Chart: Kategori --
+      const catLabels = data.category_distribution.map(d => d.category);
+      const catCounts = data.category_distribution.map(d => d.count);
+      new Chart(document.getElementById('categoryChart'), {
+        type: 'bar',
+        data: {
+          labels: catLabels,
+          datasets: [{ label: 'Jumlah', data: catCounts,
+            backgroundColor: '#4e73df'
+          }]
+        }
+      });
+
+      // -- Tabel Recent Reported --
+      const tbody1 = document.querySelector('#recentReportedTable tbody');
+      data.recent_reported.forEach(r => {
+        tbody1.innerHTML += `<tr><td>${r.title}</td><td>${r.category}</td></tr>`;
+      });
+
+      // -- Tabel Recent Resolved --
+      const tbody2 = document.querySelector('#recentResolvedTable tbody');
+      data.recent_resolved.forEach(r => {
+        tbody2.innerHTML += `<tr><td>${r.title}</td><td>${r.category}</td></tr>`;
+      });
+    });
+
+  // ===== 2. LIVE SEARCH dengan DEBOUNCE =====
+  let debounceTimer;
+  document.getElementById('searchInput').addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const query = this.value;
+      fetch(`{% url 'dashboard:report_list' %}?q=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.getElementById('searchResultBody');
+          tbody.innerHTML = '';
+          data.reports.forEach(r => {
+            const badgeColor = {
+              'REPORTED': 'warning', 'VERIFIED': 'info',
+              'IN_PROGRESS': 'primary', 'RESOLVED': 'success'
+            }[r.status] || 'secondary';
+            tbody.innerHTML += `
+              <tr>
+                <td>${r.title}</td>
+                <td><span class="badge bg-${badgeColor}">${r.status}</span></td>
+                <td>${r.category}</td>
+                <td>
+                  <button class="btn btn-sm btn-info btn-detail" data-id="${r.id}">
+                    Detail
+                  </button>
+                </td>
+              </tr>`;
+          });
+        });
+    }, 400); // tunggu 400ms sebelum fetch
+  });
+
+  // ===== 3. EVENT DELEGATION untuk tombol Detail =====
+  document.getElementById('searchResultBody').addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-detail')) {
+      const id = e.target.dataset.id;
+      fetch(`/dashboard/api/reports/${id}/`)
+        .then(res => res.json())
+        .then(data => {
+          const badgeColor = {
+            'REPORTED': 'warning', 'VERIFIED': 'info',
+            'IN_PROGRESS': 'primary', 'RESOLVED': 'success'
+          }[data.status] || 'secondary';
+
+          document.getElementById('modalTitle').textContent = data.title;
+          document.getElementById('modalBody').innerHTML = `
+            <p><strong>Kategori:</strong> ${data.category}</p>
+            <p><strong>Status:</strong> 
+              <span class="badge bg-${badgeColor}">${data.status}</span>
+            </p>
+            <p><strong>Lokasi:</strong> ${data.location}</p>
+            <p><strong>Deskripsi:</strong> ${data.description}</p>
+            <p><strong>Dilaporkan:</strong> ${data.created_at}</p>
+          `;
+          const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+          modal.show();
+        });
+    }
+  });
+
+});
+</script>
+{% endblock %}
