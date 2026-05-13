@@ -10,7 +10,8 @@ SECRET_KEY = 'django-insecure-987*8x$3x3=e1inw0x$$kf-i7+zqecmhpi@+sxni3goq883090
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,8 +23,9 @@ INSTALLED_APPS = [
     'main_app',
     'about',
     'contacts',
-    'usermanagement_24782044',
-    'dashboard_24782044',
+    'usermanagement_24782044',  # TAMBAHAN: app user custom
+    'dashboard_24782044',       # TAMBAHAN: app dashboard
+    'rest_framework',           # TAMBAHAN: Django REST Framework (Lab 9)
 ]
 
 MIDDLEWARE = [
@@ -45,7 +47,6 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -56,16 +57,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'I24782044_iet_2026.wsgi.application'
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'smartcity_db',
-        'USER': 'postgres',
-        'PASSWORD': 'ihsan2024',
+        'USER': 'postgres',       # Ganti jika username PostgreSQL Anda berbeda
+        'PASSWORD': 'ihsan2024',  # Ganti dengan password PostgreSQL Anda
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+
+AUTH_USER_MODEL = 'usermanagement_24782044.User'
+
+LOGIN_URL          = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -74,20 +84,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-AUTH_USER_MODEL = 'usermanagement_24782044.User'
 
-LANGUAGE_CODE = 'id'
-TIME_ZONE = 'Asia/Jakarta'
-USE_I18N = True
-USE_TZ = True
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE     = 'UTC'
+USE_I18N      = True
+USE_TZ        = True
+
 
 STATIC_URL = 'static/'
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = '/login/'
 
-from django.contrib.messages import constants as msg
-MESSAGE_TAGS = {
-    msg.SUCCESS: 'success',
-    msg.ERROR:   'danger',
-    msg.WARNING: 'warning',
-}
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
