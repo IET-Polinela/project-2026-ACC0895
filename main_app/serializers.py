@@ -4,8 +4,6 @@ from .models import Report
 
 class ReportSerializer(serializers.ModelSerializer):
 
-    reporter = serializers.SerializerMethodField()
-
     class Meta:
         model  = Report
         fields = [
@@ -13,6 +11,4 @@ class ReportSerializer(serializers.ModelSerializer):
             'location', 'status', 'reporter',
             'created_at', 'updated_at'
         ]
-
-    def get_reporter(self, obj):
-        return "Warga Anonim"
+        read_only_fields = ['reporter']
