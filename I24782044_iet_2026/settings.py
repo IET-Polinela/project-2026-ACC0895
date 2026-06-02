@@ -26,11 +26,13 @@ INSTALLED_APPS = [
     'contacts',
     'usermanagement_24782044',  # TAMBAHAN: app user custom
     'dashboard_24782044',       # TAMBAHAN: app dashboard
-    'rest_framework',
-    'rest_framework_simplejwt'           # TAMBAHAN: Django REST Framework (Lab 9)
+    'rest_framework',           # TAMBAHAN: Django REST Framework (Lab 9)
+    'rest_framework_simplejwt', # TAMBAHAN: JWT Authentication
+    'corsheaders',              # TAMBAHAN: CORS Headers (Lab 11)
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # ← WAJIB PALING ATAS!
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -141,5 +143,8 @@ USE_TZ        = True
 
 
 STATIC_URL = 'static/'
+
+# CORS Settings (Lab 11)
+CORS_ALLOW_ALL_ORIGINS = True  # Izinkan semua domain (untuk testing lokal)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
