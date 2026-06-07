@@ -17,36 +17,66 @@ const routes = {
         </div>
     `,
 
-    '#dashboard': `
-        <div class="row g-4">
-            <!-- Kolom kiri (25%) -->
-            <aside class="col-12 col-lg-3">
-                <div class="card border-0 p-3 shadow-sm sticky-top" style="top: 20px;">
-                    <button class="btn btn-primary btn-lg w-100 fw-bold mb-3">
-                        <i class="bi bi-plus-circle-fill me-2"></i>Laporan Baru
+'#dashboard': `
+    <div class="row g-4">
+
+        <!-- SIDEBAR KIRI: Tombol + Rekap Status -->
+        <aside class="col-12 col-lg-3">
+            <div class="card border-0 p-3 shadow-sm sticky-top" style="top: 20px;">
+
+                <!-- Tombol Tambah Laporan Baru -->
+                <button class="btn btn-primary btn-lg w-100 fw-bold mb-4"
+                        onclick="openNewReportModal()">
+                    <i class="bi bi-plus-circle-fill me-2"></i>Laporan Baru
+                </button>
+
+                <!-- Rekap Status -->
+                <h6 class="fw-bold text-muted mb-3">
+                    <i class="bi bi-bar-chart-fill me-2"></i>Rekap Laporanku
+                </h6>
+                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                    <span class="small">📝 Draft</span>
+                    <span class="badge bg-secondary" id="count-draft">0</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                    <span class="small">⚙️ Diproses</span>
+                    <span class="badge bg-warning text-dark" id="count-inprogress">0</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                    <span class="small">✅ Selesai</span>
+                    <span class="badge bg-success" id="count-resolved">0</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- KONTEN TENGAH + KANAN: Daftar Laporan -->
+        <section class="col-12 col-lg-9">
+
+            <!-- Tab Switcher -->
+            <ul class="nav nav-tabs mb-3">
+                <li class="nav-item">
+                    <button class="nav-link active fw-semibold" id="tab-my"
+                            onclick="switchTab('my_reports', this)">
+                        <i class="bi bi-person-fill me-1"></i>Laporan Saya
                     </button>
-                </div>
-            </aside>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link fw-semibold" id="tab-feed"
+                            onclick="switchTab('feed', this)">
+                        <i class="bi bi-globe me-1"></i>Feed Kota
+                    </button>
+                </li>
+            </ul>
 
-            <!-- Kolom tengah (50%) -->
-            <section class="col-12 col-lg-6">
-                <div class="card border-0 p-5 shadow-sm text-center text-muted border-dashed">
-                    <i class="bi bi-inbox fs-1"></i>
-                    <h5 class="mt-3">Selamat Datang!</h5>
-                    <p class="small">Koneksi API untuk data laporan akan diimplementasikan pada Lab 12.</p>
-                </div>
-            </section>
+            <!-- Container kartu laporan (diisi oleh renderList) -->
+            <div id="listContainer" class="row"></div>
 
-            <!-- Kolom kanan (25%) -->
-            <aside class="col-12 col-lg-3 d-none d-lg-block">
-                <div class="card border-0 p-3 shadow-sm sticky-top" style="top: 20px;">
-                    <h6 class="fw-bold">
-                        <i class="bi bi-info-circle-fill text-primary me-2"></i>Pengumuman
-                    </h6>
-                </div>
-            </aside>
-        </div>
-    `
+            <!-- Container tombol halaman (diisi oleh renderPagination) -->
+            <div id="paginationContainer" class="mt-3"></div>
+
+        </section>
+    </div>
+`,
 };
 
 // Fungsi yang menangani perpindahan halaman
@@ -62,6 +92,11 @@ function handleRouting() {
     // Jika halaman login, aktifkan form login
     if (hash === '#login' && typeof setupLoginForm === 'function') {
         setupLoginForm();
+    }
+
+    // Jika halaman dashboard, panggil loadDashboardData()
+    if (hash === '#dashboard' && typeof loadDashboardData === 'function') {
+        loadDashboardData('my_reports', 1);
     }
 }
 
