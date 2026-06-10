@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-987*8x$3x3=e1inw0x$$kf-i7+zqecmhpi@+sxni3goq883090
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
@@ -42,7 +42,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'I24782044_iet_2026.urls'
+ROOT_URLCONF = 'smartcity_app.urls'
 
 TEMPLATES = [
     {
@@ -59,7 +59,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'I24782044_iet_2026.wsgi.application'
+WSGI_APPLICATION = 'smartcity_app.wsgi.application'
 
 
 DATABASES = {
@@ -142,7 +142,8 @@ USE_I18N      = True
 USE_TZ        = True
 
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/' 
+STATIC_ROOT = BASE_DIR / 'staticfiles' # ← tambahkan baris ini
 
 # CORS Settings (Lab 11)
 CORS_ALLOW_ALL_ORIGINS = True  # Izinkan semua domain (untuk testing lokal)
