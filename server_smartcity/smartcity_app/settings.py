@@ -24,11 +24,13 @@ INSTALLED_APPS = [
     'main_app',
     'about',
     'contacts',
-    'usermanagement_24782044',  # TAMBAHAN: app user custom
-    'dashboard_24782044',       # TAMBAHAN: app dashboard
-    'rest_framework',           # TAMBAHAN: Django REST Framework (Lab 9)
-    'rest_framework_simplejwt', # TAMBAHAN: JWT Authentication
-    'corsheaders',              # TAMBAHAN: CORS Headers (Lab 11)
+    'usermanagement_24782044',
+    'dashboard_24782044',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
+    'drf_spectacular',      
+    'django_scalar',        
 ]
 
 MIDDLEWARE = [
@@ -84,7 +86,8 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  
 }
 
 # JWT Configuration
@@ -149,3 +152,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles' # ← tambahkan baris ini
 CORS_ALLOW_ALL_ORIGINS = True  # Izinkan semua domain (untuk testing lokal)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# DRF Spectacular Configuration
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Smart City Portal API',
+    'DESCRIPTION': 'Dokumentasi REST API resmi untuk Portal Pelaporan Laporan Warga',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
