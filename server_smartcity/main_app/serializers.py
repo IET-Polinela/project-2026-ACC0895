@@ -4,29 +4,33 @@ from .models import Report
 
 class ReportSerializer(serializers.ModelSerializer):
 
-    # === TAMBAHAN BARU: field is_owner ===
     is_owner = serializers.SerializerMethodField()
-    
-    # === PERBAIKAN: Tambahkan reporter_username untuk menampilkan nama, bukan ID ===
-    reporter_username = serializers.CharField(
-        source='reporter.username', 
-        read_only=True
-    )
+    reporter = serializers.SerializerMethodField()
+    reporter_name = serializers.SerializerMethodField()
 
     class Meta:
         model  = Report
         fields = [
             'id', 'title', 'category', 'description',
             'location', 'status', 'reporter',
-            'reporter_username',   # Tambahkan field username pelapor
+            'reporter_name',
             'created_at', 'updated_at',
-            'is_owner',            # Tambahkan is_owner ke fields
+            'is_owner',
         ]
-        read_only_fields = ['reporter', 'reporter_username', 'is_owner']
+        read_only_fields = ['reporter', 'reporter_name', 'is_owner']
 
-    # Method ini otomatis dipanggil saat is_owner di-serialize
     def get_is_owner(self, obj):
         request = self.context.get('request')
         if request and request.user and request.user.is_authenticated:
             return obj.reporter == request.user
         return False
+
+    def get_reporter(self, obj):
+        return "Warga Anonim"
+
+    def get_reporter_name(self, obj):
+        request = self.context.get('request')
+        if request and request.user and request.user.is_authenticated:
+            if obj.reporter == request.user:
+                return obj.reporter.username
+        return "Warga Anonim"

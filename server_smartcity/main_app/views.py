@@ -30,7 +30,7 @@ class HomeView(ListView):
     context_object_name = 'reports'
 
 
-class ReportListView(ListView):
+class ReportListView(AdminRequiredMixin, ListView):
     """Separate report listing page using `report_list.html`.
 
     This ensures `/reports/` shows the dedicated list template instead of
@@ -46,7 +46,7 @@ class AddReportView(AdminRequiredMixin, CreateView):
     model = Report
     form_class = ReportForm
     template_name = 'main_app/add_report.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('report_list')
 
     def form_valid(self, form):
         messages.success(self.request, '✅ Laporan berhasil ditambahkan!')
@@ -68,7 +68,7 @@ class EditReportView(AdminRequiredMixin, UpdateView):
 class DeleteReportView(AdminRequiredMixin, DeleteView):
     model = Report
     template_name = 'main_app/delete_report.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('report_list')
 
     def form_valid(self, form):
         messages.success(self.request, '✅ Laporan berhasil dihapus!')

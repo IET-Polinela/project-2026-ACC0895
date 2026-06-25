@@ -4,12 +4,13 @@ from django.http import JsonResponse
 from django.db.models import Count
 from django.shortcuts import get_object_or_404   # PERBAIKAN: import yang hilang
 from main_app.models import Report
+from main_app.views import AdminRequiredMixin
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 
-class DashboardView(TemplateView):
+class DashboardView(AdminRequiredMixin, TemplateView):
     template_name = 'dashboard/index.html'
 
 

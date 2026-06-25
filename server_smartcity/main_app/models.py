@@ -16,6 +16,9 @@ CATEGORY_CHOICES = [
     ('Banjir',  'Banjir'),
     ('Lampu',   'Lampu'),
     ('Lainnya', 'Lainnya'),
+    ('Fasilitas Umum', 'Fasilitas Umum'),
+    ('Infrastruktur', 'Infrastruktur'),
+    ('Keamanan', 'Keamanan'),
 ]
 
 

@@ -12,7 +12,7 @@ SECRET_KEY = 'django-insecure-987*8x$3x3=e1inw0x$$kf-i7+zqecmhpi@+sxni3goq883090
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+CSRF_TRUSTED_ORIGINS = ['http://103.151.63.85:8011']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -64,16 +64,25 @@ TEMPLATES = [
 WSGI_APPLICATION = 'smartcity_app.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'smartcity_db',
-        'USER': 'postgres',       # Ganti jika username PostgreSQL Anda berbeda
-        'PASSWORD': 'ihsan2024',  # Ganti dengan password PostgreSQL Anda
-        'HOST': 'localhost',
-        'PORT': '5432',
+import sys
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'db_mhs11',
+            'USER': 'user_mhs11',       # Ganti jika username PostgreSQL Anda berbeda
+            'PASSWORD': 'mhs11',  # Ganti dengan password PostgreSQL Anda
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
 
 
 REST_FRAMEWORK = {
